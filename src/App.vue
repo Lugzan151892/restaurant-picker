@@ -1,5 +1,5 @@
 <template>
-	<header>tut header</header>
+	<!-- <header>tut header</header> -->
 	<main>
 		<RouterView />
 	</main>
