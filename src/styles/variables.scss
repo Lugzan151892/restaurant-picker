@@ -1,0 +1,41 @@
+// width/height pixels [0-300]
+@for $i from 0 through 60 {
+  $val: $i * 5;
+
+  .r-w-#{$val} { width: $val + px; }
+  .r-h-#{$val} { height: $val + px; }
+}
+
+// width/height percent [5-100]
+@for $i from 1 through 20 {
+  $name: $i * 5;
+  $val: $i * 5%;
+
+  .r-wp-#{$name} { width: $val; }
+  .r-hp-#{$name} { height: $val; }
+
+  // @media (max-width: #{$breakpoint-xs-max}) {
+  //   .xs\:ao-wp-#{$name} { width: $val; }
+  //   .xs\:ao-hp-#{$name} { height: $val; }
+  // }
+
+  // @media (min-width: $breakpoint-sm-min) and (max-width: #{$breakpoint-sm-max}) {
+  //   .sm\:ao-wp-#{$name} { width: $val; }
+  //   .sm\:ao-hp-#{$name} { height: $val; }
+  // }
+
+  // @media (min-width: $breakpoint-md-min) and (max-width: #{$breakpoint-md-max}) {
+  //   .md\:ao-wp-#{$name} { width: $val; }
+  //   .md\:ao-hp-#{$name} { height: $val; }
+  // }
+
+  // @media (min-width: $breakpoint-lg-min) and (max-width: #{$breakpoint-lg-max}) {
+  //   .lg\:ao-wp-#{$name} { width: $val; }
+  //   .lg\:ao-hp-#{$name} { height: $val; }
+  // }
+
+  // @media (min-width: $breakpoint-xl-min) {
+  //   .xl\:ao-wp-#{$name} { width: $val; }
+  //   .xl\:ao-hp-#{$name} { height: $val; }
+  // }
+}

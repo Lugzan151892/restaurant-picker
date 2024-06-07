@@ -8,7 +8,9 @@
       Signup
     </h2>
     <form>
-      <RInput v-model="name" />
+      <RInput placeholder="Введите имя" v-model="name" />
+      <RInput placeholder="Введите e-mail" v-model="email" />
+      <RInput placeholder="Введите номер телефона" v-model="phone" />
     </form>
   </div>
 </section>
@@ -18,7 +20,9 @@ import { ref } from 'vue';
 import RInput from '../../../components/ui/RInput.vue';
 
 const name = ref('');
-  
+const email = ref('');
+const phone = ref('');
+
 </script>
 <style lang="scss" module>
 $component: SignUpView;
