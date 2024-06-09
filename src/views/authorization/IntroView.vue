@@ -32,7 +32,6 @@ import RButton from '@/components/ui/RButton.vue';
 import { useRouter } from 'vue-router';
 
 const className = 'intro-view';
-
 const router = useRouter();
 
 const handleLogin = () => {
