@@ -1,4 +1,5 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
+import authRoutes from './auth';
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,12 +9,8 @@ const router = createRouter({
 			name: 'restaurants',
 			component: () => import('@/views/restaurants/restaurants/RestaurantsView.vue'),
 		},
-    {
-			path: '/signup',
-			name: 'signup',
-			component: () => import('@/views/authorization/sign-up/SignUpView.vue'),
-		},
+		...authRoutes,
 	],
-})
+});
 
-export default router
+export default router;

@@ -1,0 +1,62 @@
+<template>
+	<button
+		:class="$style[className]"
+		class="r-px-20 r-py-10 r-pointer r-m-auto"
+		v-bind="$attrs"
+		:style="styles"
+		@click="$emit('click')"
+	>
+		<div
+			class="r-mr-10"
+			v-if="$slots.prepend"
+		>
+			<slot name="prepend" />
+		</div>
+		<slot>
+			<div :class="$style[`${className}-text`]">{{ text }}</div>
+		</slot>
+		<div
+			v-if="$slots.append"
+			class="r-ml-10"
+		>
+			<slot name="append" />
+		</div>
+	</button>
+</template>
+<script lang="ts" setup>
+import { computed } from 'vue';
+
+const className = 'r-button';
+defineEmits(['click']);
+const props = withDefaults(
+	defineProps<{
+		text?: string;
+		fullWidth?: boolean;
+	}>(),
+	{
+		text: '',
+		fullWidth: false,
+	},
+);
+
+const styles = computed(() => ({
+	...(props.fullWidth ? { width: '100%', 'max-width': '100%' } : {}),
+}));
+</script>
+<style lang="scss" module>
+$component: r-button;
+
+.#{$component} {
+	border-radius: 10px;
+	border: none;
+	background-color: var(--background-orange);
+	font-size: 16px;
+	color: var(--main-white);
+	max-width: fit-content;
+
+	&-text {
+		font-size: 16px;
+		font-weight: 500;
+	}
+}
+</style>

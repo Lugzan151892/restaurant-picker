@@ -1,14 +1,16 @@
-@import './base.css';
+@import '@/assets/base.css';
+@import '@/styles/variables.scss';
+@import '@/styles/styles.scss';
 
 #app {
 	max-width: 1280px;
 	margin: 0 auto;
-	padding: 2rem;
 	font-weight: normal;
+	height: 100vh;
 }
 
 * {
-  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
-  box-sizing: border-box;
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box; /* Firefox, other Gecko */
+	box-sizing: border-box;
 }
