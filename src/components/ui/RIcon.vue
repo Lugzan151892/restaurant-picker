@@ -8,9 +8,7 @@
     alt?: string;
   }>(), {
     alt: 'Icon'
-  })
-  const componentName = 'RIcon';
-  const className = 'r-icon';
+  });
   
 </script>
 <style lang="scss" module>
