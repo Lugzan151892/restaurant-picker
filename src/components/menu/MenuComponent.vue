@@ -26,7 +26,6 @@
   import signOut from '@/assets/icons/sign-out.svg';
   import noimage from '@/assets/icons/no-image.svg';
 
-  const componentName = 'MenuView';
   const className = 'menu-view';
 
   const opened = defineModel({ default: false });
@@ -61,7 +60,7 @@
       icon: signOut,
       show: true
     }
-  ].filter(el => el.show)))
+  ].filter(el => el.show)));
   
 </script>
 <style lang="scss" module>

@@ -1,13 +1,17 @@
 <template>
   <div :class="$style[className]" class="r-grid">
     <img class="r-h-35 r-w-35" :src="icon" :alt="text" />
-    <p :class="$style[`${className}-text`]">{{ text }}</p>
+    <p 
+      class="r-link" 
+      :class="$style[`${className}-text`]"
+    >
+      {{ text }}
+    </p>
   </div>
 </template>
 <script lang="ts" setup>
   import noImage from '@/assets/icons/no-image.svg';
 
-  const componentName = 'MenuListItem';
   const className = 'menu-list-item';
 
   withDefaults(defineProps<{
