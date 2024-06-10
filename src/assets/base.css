@@ -44,7 +44,6 @@
 }
 
 body {
-	min-height: 100vh;
 	color: var(--color-text);
 	background: var(--color-background);
 	transition:
@@ -68,9 +67,10 @@ body {
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	overflow: hidden;
 }
 
 main {
 	max-width: 1280px;
-	height: inherit;
+	min-height: 100%;
 }
