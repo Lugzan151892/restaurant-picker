@@ -32,18 +32,18 @@ const props = withDefaults(
 	defineProps<{
 		text?: string;
 		fullWidth?: boolean;
-    transparent: boolean;
+		transparent: boolean;
 	}>(),
 	{
 		text: '',
 		fullWidth: false,
-    transparent: false,
+		transparent: false,
 	},
 );
 
 const styles = computed(() => ({
 	...(props.fullWidth ? { width: '100%', 'max-width': '100%' } : {}),
-  ...(props.transparent ? { 'background-color': 'transparent'} : {}),
+	...(props.transparent ? { 'background-color': 'transparent' } : {}),
 }));
 </script>
 <style lang="scss" module>

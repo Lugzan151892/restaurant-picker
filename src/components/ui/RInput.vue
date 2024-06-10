@@ -1,10 +1,18 @@
 <template>
-	<div :class="$style[className]">
-		<div :class="$style[`${className}-iconbefore`]">
+	<div
+		:class="$style[className]"
+		:style="inputStyles"
+	>
+		<div
+			v-if="$slots['icon-before']"
+			class="r-ml-8"
+			:class="$style[`${className}-iconbefore`]"
+		>
 			<slot name="icon-before" />
 		</div>
 		<input
 			:placeholder="placeholder"
+			:style="{ color: props.color }"
 			:type="type"
 			:class="$style[`${className}-input`]"
 			v-model="value"
@@ -22,11 +30,15 @@ const props = withDefaults(
 		type?: string;
 		modelValue: string;
 		placeholder: string;
+		backgroundColor?: string;
+		color?: string;
 	}>(),
 	{
 		type: 'text',
 		modelValue: '',
 		placeholder: 'Введите ...',
+		backgroundColor: '#e7e7e7',
+		color: 'var(--color-text)',
 	},
 );
 
@@ -38,15 +50,20 @@ const value = computed({
 		emit('update:modelValue', val);
 	},
 });
+
+const inputStyles = computed(() => ({
+	...(props.backgroundColor && { 'background-color': props.backgroundColor }),
+	...(props.color && { color: `${props.color} !important` }),
+}));
 </script>
 <style lang="scss" module>
 $component: r-input;
 .#{$component} {
 	min-height: 52px;
-	background-color: #e7e7e7;
 	border-radius: 10px;
 	display: grid;
 	grid-template-columns: 30px 1fr;
+	align-items: center;
 	column-gap: 5px;
 
 	&:has(input:focus) {
@@ -60,7 +77,7 @@ $component: r-input;
 		grid-area: 1 / 2 / 2 / 3;
 
 		&::placeholder {
-			color: var(--color-text);
+			color: inherit;
 			text-align: left;
 			opacity: 1;
 		}
