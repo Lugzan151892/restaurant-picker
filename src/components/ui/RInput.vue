@@ -1,18 +1,18 @@
 <template>
-	<div 
-    :class="$style[className]" 
-    :style="inputStyles"
-  >
-		<div 
-      v-if="$slots['icon-before']"
-      class="r-ml-8"
-      :class="$style[`${className}-iconbefore`]"
-    >
+	<div
+		:class="$style[className]"
+		:style="inputStyles"
+	>
+		<div
+			v-if="$slots['icon-before']"
+			class="r-ml-8"
+			:class="$style[`${className}-iconbefore`]"
+		>
 			<slot name="icon-before" />
 		</div>
 		<input
 			:placeholder="placeholder"
-      :style="{ color: props.color }"
+			:style="{ color: props.color }"
 			:type="type"
 			:class="$style[`${className}-input`]"
 			v-model="value"
@@ -30,15 +30,15 @@ const props = withDefaults(
 		type?: string;
 		modelValue: string;
 		placeholder: string;
-    backgroundColor?: string;
-    color?: string;
+		backgroundColor?: string;
+		color?: string;
 	}>(),
 	{
 		type: 'text',
 		modelValue: '',
 		placeholder: 'Введите ...',
-    backgroundColor: '#e7e7e7',
-    color: 'var(--color-text)'
+		backgroundColor: '#e7e7e7',
+		color: 'var(--color-text)',
 	},
 );
 
@@ -52,10 +52,9 @@ const value = computed({
 });
 
 const inputStyles = computed(() => ({
-  ...(props.backgroundColor && { 'background-color': props.backgroundColor }),
-  ...(props.color && { color: `${props.color} !important` }),
+	...(props.backgroundColor && { 'background-color': props.backgroundColor }),
+	...(props.color && { color: `${props.color} !important` }),
 }));
-
 </script>
 <style lang="scss" module>
 $component: r-input;
@@ -64,7 +63,7 @@ $component: r-input;
 	border-radius: 10px;
 	display: grid;
 	grid-template-columns: 30px 1fr;
-  align-items: center;
+	align-items: center;
 	column-gap: 5px;
 
 	&:has(input:focus) {
