@@ -1,7 +1,7 @@
 <template>
 	<button
 		:class="$style[className]"
-		class="r-px-20 r-py-10 r-pointer r-m-auto"
+		class="r-pointer r-m-auto"
 		v-bind="$attrs"
 		:style="styles"
 		@click="$emit('click')"
@@ -32,15 +32,18 @@ const props = withDefaults(
 	defineProps<{
 		text?: string;
 		fullWidth?: boolean;
+    transparent: boolean;
 	}>(),
 	{
 		text: '',
 		fullWidth: false,
+    transparent: false,
 	},
 );
 
 const styles = computed(() => ({
 	...(props.fullWidth ? { width: '100%', 'max-width': '100%' } : {}),
+  ...(props.transparent ? { 'background-color': 'transparent'} : {}),
 }));
 </script>
 <style lang="scss" module>
