@@ -45,7 +45,6 @@
 
 body {
 	color: var(--color-text);
-	background: var(--main-white);
 	transition:
 		color 0.5s,
 		background-color 0.5s;

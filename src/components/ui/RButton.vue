@@ -7,13 +7,21 @@
 		@click="$emit('click')"
 	>
 		<div
-			class="r-mr-10"
+			:class="{
+				[$style[`${className}-prepend`]]: true,
+				'r-mr-10': $slots.default,
+			}"
 			v-if="$slots.prepend"
 		>
 			<slot name="prepend" />
 		</div>
 		<slot>
-			<div :class="$style[`${className}-text`]">{{ text }}</div>
+			<div
+				v-if="text"
+				:class="$style[`${className}-text`]"
+			>
+				{{ text }}
+			</div>
 		</slot>
 		<div
 			v-if="$slots.append"
@@ -32,7 +40,7 @@ const props = withDefaults(
 	defineProps<{
 		text?: string;
 		fullWidth?: boolean;
-		transparent: boolean;
+		transparent?: boolean;
 	}>(),
 	{
 		text: '',
@@ -51,11 +59,19 @@ $component: r-button;
 
 .#{$component} {
 	border-radius: 10px;
+	min-width: 0;
+	min-height: 0;
 	border: none;
 	background-color: var(--background-orange);
 	font-size: 16px;
 	color: var(--main-white);
 	max-width: fit-content;
+
+	&-prepend {
+		display: grid;
+		align-items: center;
+		justify-content: center;
+	}
 
 	&-text {
 		font-size: 16px;

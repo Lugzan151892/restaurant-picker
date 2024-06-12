@@ -12,6 +12,7 @@
 				:key="item.id"
 				:text="item.text"
 				:image="item.icon"
+				@click="item.onClick"
 			/>
 		</div>
 	</div>
@@ -22,29 +23,35 @@ import home from '@/assets/icons/home.svg';
 import search from '@/assets/icons/search.svg';
 import ticket from '@/assets/icons/ticket.svg';
 import noImage from '@/assets/icons/no-image.svg';
+import { useRouter } from 'vue-router';
 
 const className = 'footer-component';
+const router = useRouter();
 
 const footerMenuList = [
 	{
 		id: 1,
 		text: 'Домой',
 		icon: home,
+		onClick: () => router.push('/'),
 	},
 	{
 		id: 2,
 		text: 'Рестораны',
 		icon: ticket,
+		onClick: () => {},
 	},
 	{
 		id: 3,
 		text: 'Поиск',
 		icon: search,
+		onClick: () => {},
 	},
 	{
 		id: 4,
 		text: 'Профиль',
 		icon: noImage,
+		onClick: () => {},
 	},
 ];
 </script>
