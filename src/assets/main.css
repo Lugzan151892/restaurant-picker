@@ -7,6 +7,14 @@
 	margin: 0 auto;
 	font-weight: normal;
 	height: 100%;
+	display: grid;
+	width: 100%;
+	grid-template:
+		'top top top'
+		'left center right'
+		'bottom bottom bottom';
+	grid-template-columns: auto 1fr auto;
+	grid-template-rows: auto 1fr auto;
 }
 
 * {
