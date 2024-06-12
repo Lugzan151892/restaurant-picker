@@ -1,36 +1,34 @@
 <template>
-	<div>
-		<transition
-			name="fade"
-			appear
-		>
-			<div
-				class="wrapper"
-				v-if="opened"
-				@click="$emit('close')"
-			></div>
-		</transition>
-		<transition
-			name="pop"
-			appear
-		>
-			<div v-if="opened">
+	<Teleport to="#app">
+		<div>
+			<transition
+				name="fade"
+				appear
+			>
+				<div
+					class="wrapper"
+					v-if="opened"
+					@click="$emit('close')"
+				/>
+			</transition>
+			<transition
+				name="fade"
+				appear
+			>
 				<slot />
-			</div>
-		</transition>
-	</div>
+			</transition>
+		</div>
+	</Teleport>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-
-const showModal = ref(false);
-
-const props = defineProps<{
+defineProps<{
 	opened: boolean;
 }>();
-const componentName = 'RBackground';
-const className = 'r-background';
+
+defineOptions({
+	inheritAttrs: false,
+});
 </script>
 
 <style lang="scss" scoped>
@@ -57,18 +55,5 @@ const className = 'r-background';
 .fade-enter,
 .fade-leave-to {
 	opacity: 0;
-}
-
-.pop-enter-active,
-.pop-leave-active {
-	transition:
-		transform 0.4s cubic-bezier(0.5, 0, 0.5, 1),
-		opacity 0.4s linear;
-}
-
-.pop-enter,
-.pop-leave-to {
-	opacity: 0;
-	transform: scale(0.3) translateY(-50%);
 }
 </style>

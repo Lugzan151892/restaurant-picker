@@ -40,10 +40,7 @@
 			text="test"
 			@click="newRestModal = true"
 		/>
-		<RModal
-			v-if="newRestModal"
-			v-model="newRestModal"
-		/>
+		<RModal v-model="newRestModal" />
 	</section>
 </template>
 <script lang="ts" setup>

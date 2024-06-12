@@ -3,7 +3,10 @@
 		:opened="opened"
 		@close="opened = false"
 	>
-		<div :class="$style[`${className}-wrapper`]">
+		<div
+			v-if="opened"
+			:class="$style[`${className}-wrapper`]"
+		>
 			<div :class="$style[`${className}-header`]">
 				<slot name="header">
 					<p>
@@ -49,16 +52,14 @@
 </template>
 
 <script lang="ts" setup>
-import RButton from './RButton.vue';
-import RBackground from './RBackground.vue';
+import RButton from '@/components/ui/RButton.vue';
+import RBackground from '@/components/ui/RBackground.vue';
 
-const props = defineProps<{
+defineProps<{
 	title?: string;
 }>();
 
 defineEmits(['close']);
-
-const componentName = 'RModal';
 const className = 'r-modal';
 
 const opened = defineModel({ default: false });
