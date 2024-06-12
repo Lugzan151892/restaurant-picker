@@ -1,5 +1,5 @@
 <template>
-	<header
+	<div
 		class="r-pt-40 r-px-16 r-mb-16 r-grid"
 		:class="$style[className]"
 	>
@@ -14,7 +14,7 @@
 			alt="Logo"
 			@click="menuOpened = !menuOpened"
 		/>
-	</header>
+	</div>
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue';

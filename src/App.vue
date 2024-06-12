@@ -1,14 +1,16 @@
 <template>
-	<RouterView
-		name="header"
-		v-slot="{ Component }"
-	>
-		<component
-			v-if="Component"
-			:is="Component"
-		/>
-		<HeaderComponent v-else />
-	</RouterView>
+	<header>
+		<RouterView
+			name="header"
+			v-slot="{ Component }"
+		>
+			<component
+				v-if="Component"
+				:is="Component"
+			/>
+			<HeaderComponent v-else />
+		</RouterView>
+	</header>
 	<main>
 		<RouterView />
 	</main>
