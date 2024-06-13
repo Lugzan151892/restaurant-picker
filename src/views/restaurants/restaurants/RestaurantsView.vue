@@ -36,11 +36,7 @@
 				/>
 			</div>
 		</div>
-		<RButton
-			text="test"
-			@click="newRestModal = true"
-		/>
-		<RModal v-model="newRestModal" />
+		<AddRestaurantModal v-model="restaurantStore.newRestaurantModal" />
 	</section>
 </template>
 <script lang="ts" setup>
@@ -53,13 +49,14 @@ import italian from '@/assets/images/food_background/italian.jpg';
 import kitaiskay from '@/assets/images/food_background/kitaiskaya_kuhnya.jpg';
 import korean from '@/assets/images/food_background/korean.jpg';
 import normalFood from '@/assets/images/food_background/normal_food.jpg';
-import RModal from '@/components/ui/RModal.vue';
-import RButton from '@/components/ui/RButton.vue';
+import AddRestaurantModal from '@/components/modal-add-restaurant/AddRestaurantModal.vue';
+import { useRestaurants } from './store';
 
 const className = 'restaurants-view';
 
+const restaurantStore = useRestaurants();
+
 const search = ref('');
-const newRestModal = ref(false);
 
 const foodTypeList = computed(() => [
 	{
