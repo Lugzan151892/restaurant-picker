@@ -3,7 +3,12 @@
 		class="r-pt-40 r-px-16 r-mb-16 r-grid"
 		:class="$style[className]"
 	>
-		<MenuComponent v-model="menuOpened" />
+		<RBackground
+			:opened="menuOpened"
+			@close="menuOpened = false"
+		>
+			<MenuComponent v-model="menuOpened" />
+		</RBackground>
 		<img
 			class="r-pointer"
 			:class="{
@@ -19,8 +24,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import MenuComponent from '@/components/menu/MenuComponent.vue';
+import RBackground from '../ui/RBackground.vue';
 
-const componentName = 'HeaderComponent';
 const className = 'header-component';
 
 const menuOpened = ref(false);
