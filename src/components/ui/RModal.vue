@@ -7,45 +7,64 @@
 			v-if="opened"
 			:class="$style[`${className}-wrapper`]"
 		>
-			<div :class="$style[`${className}-header`]">
-				<slot name="header">
-					<p>
-						{{ title }}
-					</p>
-				</slot>
-			</div>
-			<div :class="$style[`${className}-header--right`]">
-				<slot name="header-right">
-					<div class="r-p-8">
-						<RButton @click="opened = false">
+			<div
+				:class="{
+					[$style[`${className}-header`]]: true,
+					'r-p-8': true,
+				}"
+			>
+				<div :class="$style[`${className}-header--content`]">
+					<slot name="header">
+						<p :class="$style[`${className}-header--content-title`]">
+							{{ title }}
+						</p>
+					</slot>
+				</div>
+				<div
+					:class="{
+						[$style[`${className}-header--right`]]: true,
+						'r-hp-100': !$slots['header-right'],
+					}"
+				>
+					<slot name="header-right">
+						<RButton
+							:class="{
+								'r-ml-8': !$slots['header'],
+							}"
+							@click="opened = false"
+						>
 							<template #prepend>
 								<img
-									class="r-pointer r-h-15 r-w-15"
+									class="r-pointer r-h-20 r-w-15"
 									src="@/assets/icons/close.svg"
 									alt="Close"
 								/>
 							</template>
 						</RButton>
-					</div>
-				</slot>
-			</div>
-			<div :class="$style[`${className}-content--left`]">
-				<slot name="content-left" />
+					</slot>
+				</div>
 			</div>
 			<div :class="$style[`${className}-content`]">
-				<slot name="content" />
-			</div>
-			<div :class="$style[`${className}-content--right`]">
-				<slot name="content-right" />
-			</div>
-			<div :class="$style[`${className}-footer--left`]">
-				<slot name="footer-left" />
+				<div :class="$style[`${className}-content--left`]">
+					<slot name="content-left" />
+				</div>
+				<div :class="$style[`${className}-content--middle`]">
+					<slot />
+				</div>
+				<div :class="$style[`${className}-content--right`]">
+					<slot name="content-right" />
+				</div>
 			</div>
 			<div :class="$style[`${className}-footer`]">
-				<slot name="footer" />
-			</div>
-			<div :class="$style[`${className}-footer--right`]">
-				<slot name="footer-right" />
+				<div :class="$style[`${className}-footer--left`]">
+					<slot name="footer-left" />
+				</div>
+				<div :class="$style[`${className}-footer--middle`]">
+					<slot name="footer" />
+				</div>
+				<div :class="$style[`${className}-footer--right`]">
+					<slot name="footer-right" />
+				</div>
 			</div>
 		</div>
 	</RBackground>
@@ -80,44 +99,63 @@ $component: 'r-modal';
 		opacity: 1;
 		z-index: 11;
 		border-radius: 5px;
-		grid-template-columns: auto 1fr auto;
+		grid-template-columns: 1fr;
 		grid-template-rows: auto 1fr auto;
-		grid-template-areas:
-			'header header header-right'
-			'content-left content content-right'
-			'footer-left footer footer-right';
 	}
 
 	&-header {
-		grid-area: header;
-	}
+		display: grid;
+		grid-template-areas: 'header header header-right';
+		grid-template-columns: 1fr 1fr auto;
+		grid-template-rows: min-content;
+		align-items: center;
+		&--content {
+			grid-area: header;
 
-	&-header--right {
-		grid-area: header-right;
-	}
+			&-title {
+				font-size: 20px;
+				font-weight: 600;
+				text-align: center;
+			}
+		}
 
-	&-content--left {
-		grid-area: content-left;
+		&--right {
+			grid-area: header-right;
+		}
 	}
 
 	&-content {
-		grid-area: content;
-	}
+		display: grid;
+		grid-template-areas: 'content-left content content-right';
+		grid-template-columns: auto 1fr auto;
+		&--left {
+			grid-area: content-left;
+		}
 
-	&-content--right {
-		grid-area: content-right;
-	}
+		&--middle {
+			grid-area: content;
+		}
 
-	&-footer--left {
-		grid-area: footer-left;
+		&--right {
+			grid-area: content-right;
+		}
 	}
 
 	&-footer {
-		grid-area: footer;
-	}
+		display: grid;
+		grid-template-columns: auto 1fr auto;
+		grid-template-areas: 'footer-left footer footer-right';
+		&--left {
+			grid-area: footer-left;
+		}
 
-	&-footer--right {
-		grid-area: footer-right;
+		&--middle {
+			grid-area: footer;
+		}
+
+		&--right {
+			grid-area: footer-right;
+		}
 	}
 }
 </style>

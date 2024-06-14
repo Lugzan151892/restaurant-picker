@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="r-grid"
+		class="r-grid r-pointer"
 		:class="$style[className]"
 	>
 		<img

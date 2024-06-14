@@ -21,12 +21,14 @@
 import FooterMenuItem from '@/components/footer/components/FooterMenuItem.vue';
 import home from '@/assets/icons/home.svg';
 import search from '@/assets/icons/search.svg';
-import ticket from '@/assets/icons/ticket.svg';
+import addIcon from '@/assets/icons/add-icon.svg';
 import noImage from '@/assets/icons/no-image.svg';
 import { useRouter } from 'vue-router';
+import { useRestaurants } from '@/views/restaurants/restaurants/store';
 
 const className = 'footer-component';
 const router = useRouter();
+const restaurantStore = useRestaurants();
 
 const footerMenuList = [
 	{
@@ -37,9 +39,11 @@ const footerMenuList = [
 	},
 	{
 		id: 2,
-		text: 'Рестораны',
-		icon: ticket,
-		onClick: () => {},
+		text: 'Добавить ресторан',
+		icon: addIcon,
+		onClick: () => {
+			restaurantStore.newRestaurantModal = true;
+		},
 	},
 	{
 		id: 3,
