@@ -36,6 +36,24 @@
 				/>
 			</div>
 		</div>
+		<div :class="$style[`${className}-restaurants`]">
+			<h3
+				:class="$style[`${className}-types--title`]"
+				class="r-mt-16 r-mb-16"
+			>
+				Ваши места
+			</h3>
+			<div class="r-grid">
+				<RestaurantCard
+					v-for="(item, index) in foodTypeList"
+					:key="item.id"
+					:class="{ 'r-mt-8': index }"
+					:title="item.text"
+					:background="item.background"
+					:image="item.image"
+				/>
+			</div>
+		</div>
 		<AddRestaurantModal v-model="restaurantStore.newRestaurantModal" />
 	</section>
 </template>
@@ -50,7 +68,8 @@ import kitaiskay from '@/assets/images/food_background/kitaiskaya_kuhnya.jpg';
 import korean from '@/assets/images/food_background/korean.jpg';
 import normalFood from '@/assets/images/food_background/normal_food.jpg';
 import AddRestaurantModal from '@/components/modal-add-restaurant/AddRestaurantModal.vue';
-import { useRestaurants } from './store';
+import { useRestaurants } from '@/views/restaurants/restaurants/store';
+import RestaurantCard from '@/views/restaurants/restaurants/components/RestaurantCard.vue';
 
 const className = 'restaurants-view';
 
