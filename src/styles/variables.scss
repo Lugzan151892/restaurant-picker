@@ -1,12 +1,10 @@
 // width/height pixels [0-300]
-@for $i from 0 through 60 {
-	$val: $i * 5;
-
-	.r-w-#{$val} {
-		width: $val + px;
+@for $i from 0 through 300 {
+	.r-w-#{$i} {
+		width: $i + px;
 	}
-	.r-h-#{$val} {
-		height: $val + px;
+	.r-h-#{$i} {
+		height: $i + px;
 	}
 }
 
@@ -114,4 +112,30 @@
 		margin-top: $val + px;
 		margin-bottom: $val + px;
 	}
+}
+
+.r-mt-auto {
+	margin-top: auto;
+}
+
+.r-mr-auto {
+	margin-right: auto;
+}
+
+.r-mb-auto {
+	margin-bottom: auto;
+}
+
+.r-ml-auto {
+	margin-left: auto;
+}
+
+.r-mx-auto {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.r-my-auto {
+	margin-top: auto;
+	margin-bottom: auto;
 }
