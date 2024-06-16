@@ -30,11 +30,14 @@
 <script lang="ts" setup>
 import RButton from '@/components/ui/RButton.vue';
 import { useRouter } from 'vue-router';
+import { setLocalItem } from '@/utils/localStorage/localStorageFunc';
+import { LOCAL_INTRO_ACCEPT } from '@/utils/localStorage/localStorageVariables';
 
 const className = 'intro-view';
 const router = useRouter();
 
 const handleLogin = () => {
+	setLocalItem(LOCAL_INTRO_ACCEPT, true);
 	router.push({ name: 'signup' });
 };
 </script>
