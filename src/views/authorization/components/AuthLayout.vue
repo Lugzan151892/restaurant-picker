@@ -20,8 +20,9 @@
 			</h2>
 			<slot />
 			<RButton
-				class="r-mt-88"
+				class="r-mt-88 r-p-16 r-mb-16"
 				:text="actionText"
+				:disabled="actionDisabled"
 				@click="actionFunc"
 			/>
 		</div>
@@ -36,9 +37,11 @@ withDefaults(
 		title?: string;
 		actionText: string;
 		actionFunc: () => void;
+		actionDisabled?: boolean;
 	}>(),
 	{
 		title: '',
+		actionDisabled: false,
 	},
 );
 </script>

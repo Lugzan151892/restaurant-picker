@@ -7,7 +7,13 @@ const router = createRouter({
 		{
 			path: '/',
 			name: 'restaurants',
-			component: () => import('@/views/restaurants/restaurants/RestaurantsView.vue'),
+			components: {
+				default: () => import('@/views/restaurants/restaurants/RestaurantsView.vue'),
+			},
+			meta: {
+				footer: true,
+				header: true,
+			},
 		},
 		...authRoutes,
 	],
