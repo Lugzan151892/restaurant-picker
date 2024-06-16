@@ -4,7 +4,7 @@
 		class="r-pointer r-m-auto"
 		v-bind="$attrs"
 		:style="styles"
-		@click="$emit('click')"
+		@click="onClick()"
 	>
 		<div
 			:class="{
@@ -35,24 +35,34 @@
 import { computed } from 'vue';
 
 const className = 'r-button';
-defineEmits(['click']);
+const emit = defineEmits(['click']);
 const props = withDefaults(
 	defineProps<{
 		text?: string;
 		fullWidth?: boolean;
 		transparent?: boolean;
+		disabled?: boolean;
 	}>(),
 	{
 		text: '',
 		fullWidth: false,
 		transparent: false,
+		disabled: false,
 	},
 );
 
 const styles = computed(() => ({
 	...(props.fullWidth ? { width: '100%', 'max-width': '100%' } : {}),
 	...(props.transparent ? { 'background-color': 'transparent' } : {}),
+	...(props.disabled ? { opacity: '0.4', cursor: 'default' } : {}),
 }));
+
+const onClick = () => {
+	if (props.disabled) {
+		return;
+	}
+	emit('click');
+};
 </script>
 <style lang="scss" module>
 $component: r-button;

@@ -1,22 +1,34 @@
 <template>
-	<div
-		:class="$style[className]"
-		:style="inputStyles"
-	>
+	<div>
 		<div
-			v-if="$slots['icon-before']"
-			class="r-ml-8"
-			:class="$style[`${className}-iconbefore`]"
+			:class="{
+				[$style[className]]: true,
+				[$style[`${className}--error`]]: error,
+			}"
+			:style="inputStyles"
 		>
-			<slot name="icon-before" />
+			<div
+				v-if="$slots['icon-before']"
+				class="r-ml-8"
+				:class="$style[`${className}-iconbefore`]"
+			>
+				<slot name="icon-before" />
+			</div>
+			<input
+				:placeholder="placeholder"
+				:style="{ color: props.color }"
+				:type="type"
+				:class="$style[`${className}-input`]"
+				v-model="value"
+				@input="$emit('input', $event)"
+			/>
 		</div>
-		<input
-			:placeholder="placeholder"
-			:style="{ color: props.color }"
-			:type="type"
-			:class="$style[`${className}-input`]"
-			v-model="value"
-		/>
+		<p
+			class="r-ml-16 r-mt-2"
+			:class="$style[`${className}-error`]"
+		>
+			{{ error }}
+		</p>
 	</div>
 </template>
 <script lang="ts" setup>
@@ -24,7 +36,7 @@ import { computed } from 'vue';
 
 const className = 'r-input';
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'input']);
 const props = withDefaults(
 	defineProps<{
 		type?: string;
@@ -32,6 +44,7 @@ const props = withDefaults(
 		placeholder: string;
 		backgroundColor?: string;
 		color?: string;
+		error?: string;
 	}>(),
 	{
 		type: 'text',
@@ -39,6 +52,7 @@ const props = withDefaults(
 		placeholder: 'Введите ...',
 		backgroundColor: '#e7e7e7',
 		color: 'var(--color-text)',
+		error: '',
 	},
 );
 
@@ -70,6 +84,10 @@ $component: r-input;
 		border: 2px solid var(--main-color);
 	}
 
+	&--error {
+		border: 2px solid var(--main-error) !important;
+	}
+
 	&-input {
 		border: none;
 		background: transparent;
@@ -86,6 +104,10 @@ $component: r-input;
 			border: none;
 			outline: none;
 		}
+	}
+
+	&-error {
+		color: var(--main-error);
 	}
 }
 </style>
