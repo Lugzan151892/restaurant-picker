@@ -8,6 +8,8 @@ export enum EVALIDATION_FIELDS {
 	USERNAME = 'username',
 }
 
+export interface IErrorObject extends Record<EVALIDATION_FIELDS, string> {}
+
 const checkUsername = (userName: string) => {
 	if (!userName) return false;
 
@@ -40,11 +42,12 @@ const checkValid = (field: EVALIDATION_FIELDS, value: string) => {
 	}
 };
 
-export const useValidation = (userData: { [key in EVALIDATION_FIELDS]?: string }) => {
-	const errors = {} as { [key in EVALIDATION_FIELDS]?: string };
+export const useValidation = (userData: IErrorObject) => {
+	const errors = {} as IErrorObject;
 
 	Object.keys(userData).forEach((el) => {
-		errors[el] = checkValid(el, userData[el]);
+		const currentEl = el as keyof IErrorObject;
+		errors[currentEl] = checkValid(currentEl, userData[currentEl]);
 	});
 
 	const isValid = !Object.values(errors).some((el) => !!el);
