@@ -20,6 +20,7 @@
 			</h2>
 			<slot />
 			<RButton
+				v-if="actionFunc"
 				class="r-mt-88 r-p-16 r-mb-16"
 				:text="actionText"
 				:disabled="actionDisabled"
@@ -36,7 +37,7 @@ withDefaults(
 	defineProps<{
 		title?: string;
 		actionText: string;
-		actionFunc: () => void;
+		actionFunc?: () => void;
 		actionDisabled?: boolean;
 	}>(),
 	{
