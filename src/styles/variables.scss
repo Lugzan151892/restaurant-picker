@@ -1,0 +1,141 @@
+// width/height pixels [0-300]
+@for $i from 0 through 300 {
+	.r-w-#{$i} {
+		width: $i + px;
+	}
+	.r-h-#{$i} {
+		height: $i + px;
+	}
+}
+
+@for $i from 0 through 20 {
+	$val: $i * 5;
+
+	.r-vw-#{$val} {
+		width: $val + vw;
+	}
+	.r-vh-#{$val} {
+		height: $val + vh;
+	}
+}
+
+// width/height percent [5-100]
+@for $i from 1 through 20 {
+	$name: $i * 5;
+	$val: $i * 5%;
+
+	.r-wp-#{$name} {
+		width: $val;
+	}
+	.r-hp-#{$name} {
+		height: $val;
+	}
+
+	// @media (max-width: #{$breakpoint-xs-max}) {
+	//   .xs\:ao-wp-#{$name} { width: $val; }
+	//   .xs\:ao-hp-#{$name} { height: $val; }
+	// }
+
+	// @media (min-width: $breakpoint-sm-min) and (max-width: #{$breakpoint-sm-max}) {
+	//   .sm\:ao-wp-#{$name} { width: $val; }
+	//   .sm\:ao-hp-#{$name} { height: $val; }
+	// }
+
+	// @media (min-width: $breakpoint-md-min) and (max-width: #{$breakpoint-md-max}) {
+	//   .md\:ao-wp-#{$name} { width: $val; }
+	//   .md\:ao-hp-#{$name} { height: $val; }
+	// }
+
+	// @media (min-width: $breakpoint-lg-min) and (max-width: #{$breakpoint-lg-max}) {
+	//   .lg\:ao-wp-#{$name} { width: $val; }
+	//   .lg\:ao-hp-#{$name} { height: $val; }
+	// }
+
+	// @media (min-width: $breakpoint-xl-min) {
+	//   .xl\:ao-wp-#{$name} { width: $val; }
+	//   .xl\:ao-hp-#{$name} { height: $val; }
+	// }
+}
+
+.r-m-auto {
+	margin: 0 auto;
+}
+
+// Paddings and margins
+@for $i from 0 through 100 {
+	$val: $i;
+
+	.r-pt-#{$val} {
+		padding-top: $val + px;
+	}
+	.r-pb-#{$val} {
+		padding-bottom: $val + px;
+	}
+	.r-pl-#{$val} {
+		padding-left: $val + px;
+	}
+	.r-pr-#{$val} {
+		padding-right: $val + px;
+	}
+	.r-p-#{$val} {
+		padding: $val + px;
+	}
+	.r-px-#{$val} {
+		padding-right: $val + px;
+		padding-left: $val + px;
+	}
+	.r-py-#{$val} {
+		padding-top: $val + px;
+		padding-bottom: $val + px;
+	}
+
+	.r-mt-#{$val} {
+		margin-top: $val + px;
+	}
+	.r-mb-#{$val} {
+		margin-bottom: $val + px;
+	}
+	.r-ml-#{$val} {
+		margin-left: $val + px;
+	}
+	.r-mr-#{$val} {
+		margin-right: $val + px;
+	}
+	.r-m-#{$val} {
+		margin: $val + px;
+	}
+	.r-mx-#{$val} {
+		margin-right: $val + px;
+		margin-left: $val + px;
+	}
+	.r-my-#{$val} {
+		margin-top: $val + px;
+		margin-bottom: $val + px;
+	}
+}
+
+.r-mt-auto {
+	margin-top: auto;
+}
+
+.r-mr-auto {
+	margin-right: auto;
+}
+
+.r-mb-auto {
+	margin-bottom: auto;
+}
+
+.r-ml-auto {
+	margin-left: auto;
+}
+
+.r-mx-auto {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.r-my-auto {
+	margin-top: auto;
+	margin-bottom: auto;
+}

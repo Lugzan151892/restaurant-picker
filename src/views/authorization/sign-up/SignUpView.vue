@@ -1,28 +1,19 @@
 <template>
-<section>
-  <div class="logo">
-    tut logo
-  </div>
-  <div class="form">
-    <h2>
-      Signup
-    </h2>
-    <form>
-      <RInput v-model="name" />
-    </form>
-  </div>
-</section>
+	<div>
+		<SignUpContent
+			v-if="!isCodeSent"
+			@send-code="isCodeSent = $event"
+		/>
+		<CodeEnterView
+			v-else
+			code-adress="e-mail"
+		/>
+	</div>
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue';
-import RInput from '../../../components/ui/RInput.vue';
+import CodeEnterView from '@/views/authorization/code-enter/CodeEnterView.vue';
+import SignUpContent from '@/views/authorization/sign-up/components/SignUpContent.vue';
 
-const name = ref('');
-  
+const isCodeSent = ref(true);
 </script>
-<style lang="scss" module>
-$component: SignUpView;
-.#{$component} {
-  
-}
-</style>

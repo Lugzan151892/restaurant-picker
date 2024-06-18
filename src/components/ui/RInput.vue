@@ -1,75 +1,113 @@
 <template>
-  <div 
-    :class="$style[className]"
-  >
-    <div :class="$style[`${className}-iconbefore`]">
-      <slot name="icon-before" />
-    </div>
-    <input
-      :placeholder="placeholder"
-      :type="type"
-      :class="$style[`${className}-input`]"
-      v-model="value"
-    />
-  </div>
+	<div>
+		<div
+			:class="{
+				[$style[className]]: true,
+				[$style[`${className}--error`]]: error,
+			}"
+			:style="inputStyles"
+		>
+			<div
+				v-if="$slots['icon-before']"
+				class="r-ml-8"
+				:class="$style[`${className}-iconbefore`]"
+			>
+				<slot name="icon-before" />
+			</div>
+			<input
+				:placeholder="placeholder"
+				:style="{ color: props.color }"
+				:type="type"
+				:class="$style[`${className}-input`]"
+				v-model="value"
+				@input="$emit('input', $event)"
+			/>
+		</div>
+		<p
+			class="r-ml-16 r-mt-2"
+			:class="$style[`${className}-error`]"
+		>
+			{{ error }}
+		</p>
+	</div>
 </template>
 <script lang="ts" setup>
 import { computed } from 'vue';
 
 const className = 'r-input';
 
-const emit = defineEmits(['update:modelValue']);
-const props = withDefaults(defineProps<{
-  type: string,
-  modelValue: string,
-  placeholder: string
-}>(), {
-  type: 'text',
-  modelValue: '',
-  placeholder: 'Введите ...'
-});
+const emit = defineEmits(['update:modelValue', 'input']);
+const props = withDefaults(
+	defineProps<{
+		type?: string;
+		modelValue: string;
+		placeholder: string;
+		backgroundColor?: string;
+		color?: string;
+		error?: string;
+	}>(),
+	{
+		type: 'text',
+		modelValue: '',
+		placeholder: 'Введите ...',
+		backgroundColor: '#e7e7e7',
+		color: 'var(--color-text)',
+		error: '',
+	},
+);
 
 const value = computed({
-  get() {
-    return props.modelValue
-  }, set (val) {
-    emit('update:modelValue', val)
-  }
-})
+	get() {
+		return props.modelValue;
+	},
+	set(val) {
+		emit('update:modelValue', val);
+	},
+});
 
-
+const inputStyles = computed(() => ({
+	...(props.backgroundColor && { 'background-color': props.backgroundColor }),
+	...(props.color && { color: `${props.color} !important` }),
+}));
 </script>
 <style lang="scss" module>
 $component: r-input;
 .#{$component} {
-  min-height: 52px;
-  background-color: #e7e7e7;
-  border-radius: 10px;
-  display: grid;
-  grid-template-columns: 30px 1fr;
-  column-gap: 5px;
+	min-height: 52px;
+	border-radius: 10px;
+	display: grid;
+	grid-template-columns: 30px 1fr;
+	align-items: center;
+	column-gap: 5px;
 
-  &:has(input:focus) {
-    border: 2px solid var(--main-color);
-  }
+	&:has(input:focus) {
+		border: 2px solid var(--main-color);
+	}
 
-  &-input {
-    border: none;
-    background: transparent;
-    font-size: 16px;
-    grid-area: 1 / 2 / 2 / 3;
-  
-    &::placeholder {
-      color: var(--color-text);
-      text-align: left;
-      opacity: 1;
-    }
+	&--error {
+		border: 2px solid var(--main-error) !important;
+	}
 
-    &:focus {
-      border: none;
-      outline: none;
-    }
-  }
+	&-input {
+		border: none;
+		background: transparent;
+		font-size: 16px;
+		grid-area: 1 / 2 / 2 / 3;
 
+		&::placeholder {
+			color: inherit;
+			text-align: left;
+			opacity: 1;
+		}
+
+		&:focus {
+			border: none;
+			outline: none;
+		}
+	}
+
+	&-error {
+		color: var(--main-error);
+	}
 }
 </style>
