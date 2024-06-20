@@ -14,6 +14,11 @@
 				@input="clearError(EVALIDATION_FIELDS.USERNAME)"
 			/>
 			<RInput
+				placeholder="Введите пароль"
+				class="r-mb-16"
+				v-model="password"
+			/>
+			<RInput
 				v-if="emailView"
 				class="r-mb-16"
 				placeholder="Введите e-mail"
@@ -68,10 +73,12 @@ const isValid = ref(true);
 const emailView = ref(true);
 
 const userData = ref<IErrorObject>({
-	username: '',
-	email: '',
+	username: 'testUsernaem',
+	email: 'adasdad@gmail.com',
 	phone: '',
 });
+
+const password = ref('aasdsadadasdasdadad');
 
 const errors = ref<IErrorObject>({
 	username: '',
@@ -79,7 +86,7 @@ const errors = ref<IErrorObject>({
 	phone: '',
 });
 
-const createUser = () => {
+const createUser = async () => {
 	const data = {
 		username: userData.value.username,
 		...(emailView.value ? { email: userData.value.email } : { phone: userData.value.phone }),
@@ -91,8 +98,23 @@ const createUser = () => {
 		Object.assign(errors.value, validation.errors);
 		return;
 	}
+	const test = await fetch('http://localhost:8080/api/user/all');
+	console.log(test);
+	const result = await fetch('http://localhost:8080/api/user/add', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			userName: userData.value.username,
+			email: userData.value.email,
+			password: password.value,
+		}),
+	});
 
-	authStore.setUser(userData.value.username, userData.value.email, userData.value.phone);
+	console.log(result);
+
+	// authStore.setUser(userData.value.username, userData.value.email, userData.value.phone);
 
 	if (emailView.value) {
 		emit('send-code', true);

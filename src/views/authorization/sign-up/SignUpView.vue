@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<SignUpContent
-			v-if="!isCodeSent"
+			v-if="isCodeSent"
 			@send-code="isCodeSent = $event"
 		/>
 		<CodeEnterView
