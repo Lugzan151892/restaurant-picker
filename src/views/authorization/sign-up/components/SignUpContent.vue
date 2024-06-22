@@ -169,6 +169,10 @@ const handleLoginTest = async () => {
 		localStorage.setItem('access_token', result.access_token);
 	}
 
+	if (result.data.refreshToken) {
+		localStorage.setItem('refresh_token', result.data.refreshToken);
+	}
+
 	console.log(result);
 };
 
@@ -184,6 +188,21 @@ const handleAuthTest = async () => {
 			},
 		});
 		const result = await response.json();
+
+		if (result.error) {
+			const refreshToken = localStorage.getItem('refresh_token');
+			const responseToken = await fetch('http://localhost:8080/api/user/updateToken', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					refreshToken: refreshToken,
+				}),
+			});
+
+			console.log(responseToken);
+		}
 
 		console.log(result);
 	}
