@@ -14,11 +14,6 @@
 				@input="clearError(EVALIDATION_FIELDS.USERNAME)"
 			/>
 			<RInput
-				placeholder="Введите пароль"
-				class="r-mb-16"
-				v-model="password"
-			/>
-			<RInput
 				v-if="emailView"
 				class="r-mb-16"
 				placeholder="Введите e-mail"
@@ -32,6 +27,11 @@
 				:error="errors.phone"
 				v-model="userData.phone"
 				@input="clearError(EVALIDATION_FIELDS.PHONE)"
+			/>
+			<RInput
+				placeholder="Введите пароль"
+				class="r-mb-16"
+				v-model="userData.password"
 			/>
 			<div
 				:class="$style[`${className}-login`]"
@@ -50,15 +50,6 @@
 					Войти.
 				</span>
 			</div>
-			<RButton
-				text="test login"
-				@click="handleLoginTest()"
-			/>
-
-			<RButton
-				text="test auth"
-				@click="handleAuthTest()"
-			/>
 		</form>
 	</AuthLayout>
 </template>
@@ -70,11 +61,8 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import AuthLayout from '@/views/authorization/components/AuthLayout.vue';
 import RInput from '@/components/ui/RInput.vue';
-import RButton from '@/components/ui/RButton.vue';
 
 const className = 'sign-up-content';
-
-const emit = defineEmits(['send-code']);
 
 const router = useRouter();
 const authStore = useAuth();
@@ -82,25 +70,26 @@ const authStore = useAuth();
 const isValid = ref(true);
 const emailView = ref(true);
 
-const userData = ref<IErrorObject>({
-	username: 'testUsernaem',
-	email: 'adasdad@gmail.com',
-	phone: '',
-});
-
-const password = ref('aasdsadadasdasdadad');
-
-const errors = ref<IErrorObject>({
+const userData = ref<IErrorObject<EVALIDATION_FIELDS>>({
 	username: '',
 	email: '',
 	phone: '',
+	password: '',
+});
+
+const errors = ref<IErrorObject<EVALIDATION_FIELDS>>({
+	username: '',
+	email: '',
+	phone: '',
+	password: '',
 });
 
 const createUser = async () => {
 	const data = {
 		username: userData.value.username,
+		password: userData.value.password,
 		...(emailView.value ? { email: userData.value.email } : { phone: userData.value.phone }),
-	} as IErrorObject;
+	} as IErrorObject<EVALIDATION_FIELDS>;
 	const validation = useValidation(data);
 	isValid.value = validation.isValid;
 
@@ -108,104 +97,21 @@ const createUser = async () => {
 		Object.assign(errors.value, validation.errors);
 		return;
 	}
-	const test = await fetch('http://localhost:8080/api/user/all');
-	console.log(test);
-	const response = await fetch('http://localhost:8080/api/user/add', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify({
-			userName: userData.value.username,
-			email: userData.value.email,
-			password: password.value,
-		}),
-	});
 
-	const result = await response.json();
+	const signUpResult = await authStore.registerNewUser(
+		userData.value.username,
+		userData.value.email,
+		userData.value.password,
+	);
 
-	if (result.access_token) {
-		localStorage.setItem('access_token', result.access_token);
+	if (signUpResult) {
+		router.push('/');
 	}
-
-	if (result.data.refreshToken) {
-		localStorage.setItem('refresh_token', result.data.refreshToken);
-	}
-
-	console.log(result);
-
-	// authStore.setUser(userData.value.username, userData.value.email, userData.value.phone);
-
-	if (emailView.value) {
-		emit('send-code', true);
-		console.log('email');
-	}
-
-	// if (authStore.user.isAuth) {
-	// 	router.push({ name: 'restaurants' });
-	// }
 };
 
 const clearError = (field: EVALIDATION_FIELDS) => {
 	isValid.value = true;
 	errors.value[field] = '';
-};
-
-const handleLoginTest = async () => {
-	const response = await fetch('http://localhost:8080/api/user/login', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify({
-			userName: userData.value.username,
-			password: password.value,
-		}),
-	});
-
-	const result = await response.json();
-
-	if (result.access_token) {
-		localStorage.setItem('access_token', result.access_token);
-	}
-
-	if (result.data.refreshToken) {
-		localStorage.setItem('refresh_token', result.data.refreshToken);
-	}
-
-	console.log(result);
-};
-
-const handleAuthTest = async () => {
-	const accessToken = localStorage.getItem('access_token');
-
-	if (accessToken) {
-		const response = await fetch('http://localhost:8080/api/user/checkLogin', {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: 'Bearer ' + accessToken,
-			},
-		});
-		const result = await response.json();
-
-		if (result.error) {
-			const refreshToken = localStorage.getItem('refresh_token');
-			const responseToken = await fetch('http://localhost:8080/api/user/updateToken', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					refreshToken: refreshToken,
-				}),
-			});
-
-			console.log(responseToken);
-		}
-
-		console.log(result);
-	}
 };
 
 const handleLogin = () => {
