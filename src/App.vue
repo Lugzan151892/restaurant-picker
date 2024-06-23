@@ -41,7 +41,13 @@ const authStore = useAuth();
 const router = useRouter();
 const route = useRoute();
 
-onMounted(() => {
+onMounted(async () => {
+	const canAuthWithAccessToken = await authStore.checkUserAuth();
+
+	if (!canAuthWithAccessToken) {
+		await authStore.updateAccessToken();
+	}
+
 	const isUserIntroAccept = getLocalItem(LOCAL_INTRO_ACCEPT);
 	if (!authStore.user.isAuth && !isUserIntroAccept) {
 		router.push('/intro');
