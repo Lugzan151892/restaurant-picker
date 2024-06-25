@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="r-hp-100">
 		<SignUpContent
 			v-if="isCodeSent"
 			@send-code="isCodeSent = $event"

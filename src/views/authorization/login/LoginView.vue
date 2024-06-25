@@ -4,7 +4,7 @@
 		action-text="Войти"
 		:action-func="handleLogin"
 	>
-		<form>
+		<div>
 			<RInput
 				class="r-mb-16"
 				placeholder="Введите имя пользователя"
@@ -29,7 +29,7 @@
 					Зарегистрироваться.
 				</span>
 			</div>
-		</form>
+		</div>
 	</AuthLayout>
 </template>
 <script lang="ts" setup>
