@@ -5,7 +5,7 @@
 		action-text="Сохранить и продолжить"
 		:action-disabled="!isValid"
 	>
-		<form @submit.prevent>
+		<div>
 			<RInput
 				class="r-mb-16"
 				placeholder="Введите имя"
@@ -21,25 +21,25 @@
 				v-model="userData.email"
 				@input="clearError(EVALIDATION_FIELDS.EMAIL)"
 			/>
-			<RInput
+			<!-- <RInput
 				v-else
 				placeholder="Введите номер телефона"
 				:error="errors.phone"
 				v-model="userData.phone"
 				@input="clearError(EVALIDATION_FIELDS.PHONE)"
-			/>
+			/> -->
 			<RInput
 				placeholder="Введите пароль"
 				class="r-mb-16"
 				v-model="userData.password"
 			/>
-			<div
+			<!-- <div
 				:class="$style[`${className}-login`]"
 				class="r-pointer r-link r-my-16 r-wp-100 r-text--center"
 				@click="emailView = !emailView"
 			>
 				{{ emailView ? 'Войти по номеру телефона?' : 'Войти через e-mail?' }}
-			</div>
+			</div> -->
 			<div class="r-mt-10 r-text--center">
 				Уже зарегистрированы?
 				<span
@@ -50,7 +50,7 @@
 					Войти.
 				</span>
 			</div>
-		</form>
+		</div>
 	</AuthLayout>
 </template>
 
