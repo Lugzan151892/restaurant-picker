@@ -1,8 +1,8 @@
 import { getLocalItem } from '@/utils/localStorage/localStorageFunc';
 import { LOCAL_ACCESS_TOKEN } from '@/utils/localStorage/localStorageVariables';
 
-// const defaultPath = 'http://localhost:8080/api';
-const defaultPath = 'https://hunter-service.fun/rest';
+const defaultPath = 'http://localhost:5000/rest';
+// const defaultPath = 'https://hunter-service.fun/rest';
 class Api {
 	path;
 	constructor() {
