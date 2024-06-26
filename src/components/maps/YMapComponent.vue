@@ -26,6 +26,7 @@ async function initMap() {
 		},
 	});
 
+	//@ts-ignore
 	const layer = new ymaps3.YMapDefaultSchemeLayer();
 	map.value.addChild(layer);
 }
