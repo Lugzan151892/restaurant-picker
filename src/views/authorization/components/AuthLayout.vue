@@ -1,6 +1,6 @@
 <template>
 	<section
-		class="r-vw-80 r-hp-100 r-m-auto r-grid"
+		class="r-wp-100 r-hp-100 r-px-20 r-m-auto r-grid"
 		:class="$style[className]"
 	>
 		<div
@@ -52,6 +52,7 @@ withDefaults(
 $component: auth-layout;
 .#{$component} {
 	align-content: space-between;
+	max-width: 600px;
 
 	&-logo {
 		background-repeat: no-repeat;
