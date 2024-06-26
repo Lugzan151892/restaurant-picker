@@ -87,8 +87,9 @@ const menuList = computed(() =>
 $component: menu-view;
 .#{$component} {
 	position: absolute;
-	width: 400px;
-	height: 100vh;
+	width: 100%;
+	max-width: 400px;
+	height: 100dvh;
 	background-color: var(--main-white);
 	top: 0;
 	left: -400px;
