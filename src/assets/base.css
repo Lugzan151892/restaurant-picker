@@ -72,6 +72,21 @@ body {
 	height: 100dvh;
 }
 
+*::-webkit-scrollbar {
+	width: 6px;
+}
+
+*::-webkit-scrollbar-track {
+	border-radius: 8px;
+	background-color: #e7e7e7;
+	border: 1px solid #cacaca;
+}
+
+*::-webkit-scrollbar-thumb {
+	border-radius: 8px;
+	background-color: var(--main-color);
+}
+
 header,
 main,
 footer {
