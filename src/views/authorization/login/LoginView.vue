@@ -80,7 +80,7 @@ const handleLogin = async () => {
 	const result = await authStore.login(userData.value.username, userData.value.password);
 
 	if (result) {
-		router.push({ name: 'restaurants' });
+		router.push('/');
 	}
 };
 </script>
