@@ -1,5 +1,5 @@
 import api from '@/services/api';
-import { getLocalItem, setLocalItem } from '@/utils/localStorage/localStorageFunc';
+import { deleteLocalItem, getLocalItem, setLocalItem } from '@/utils/localStorage/localStorageFunc';
 import {
 	LOCAL_ACCESS_TOKEN,
 	LOCAL_REFRESH_TOKEN,
@@ -123,6 +123,24 @@ export const useAuth = defineStore('useAuth', {
 				}
 
 				this.user.isAuth = true;
+				return true;
+			} catch (e: any) {
+				console.log(e);
+				return false;
+			}
+		},
+
+		async logout() {
+			try {
+				const result = await api.get<undefined, AUTH.ILogoutResponse>('/user/logout');
+
+				if (result.error && result.errorMessage) {
+					console.log(result.errorMessage);
+				}
+
+				deleteLocalItem(LOCAL_ACCESS_TOKEN);
+				deleteLocalItem(LOCAL_REFRESH_TOKEN);
+
 				return true;
 			} catch (e: any) {
 				console.log(e);
