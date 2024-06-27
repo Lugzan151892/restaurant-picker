@@ -15,6 +15,17 @@ const router = createRouter({
 				header: true,
 			},
 		},
+		{
+			path: '/issues',
+			name: 'issues',
+			components: {
+				default: () => import('@/views/issues/IssuesView.vue'),
+			},
+			meta: {
+				footer: true,
+				header: true,
+			},
+		},
 		...authRoutes,
 	],
 });
