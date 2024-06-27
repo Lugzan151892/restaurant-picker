@@ -1,20 +1,14 @@
 {
-	"files": [],
-	"references": [
-		{
-			"path": "./tsconfig.node.json"
-		},
-		{
-			"path": "./tsconfig.app.json"
-		},
-		{
-			"path": "./tsconfig.vitest.json"
-		}
-	],
-	"compilerOptions": {
-		"typeRoots": ["./node_modules/@yandex/ymaps3-types"]
-	},
-	"paths": {
-		"ymaps3": ["./node_modules/@yandex/ymaps3-types"]
-	}
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    },
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.vitest.json"
+    }
+  ]
 }

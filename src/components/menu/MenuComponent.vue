@@ -11,7 +11,6 @@
 			@click="opened = false"
 		/>
 		<div class="r-vh-30" />
-		{{ authStore.user.userName || 'Не авторизован' }}
 		<nav
 			:class="$style[`${className}-navigation`]"
 			class="r-mt-16"
@@ -38,12 +37,10 @@ import call from '@/assets/icons/call.svg';
 import info from '@/assets/icons/info.svg';
 import signOut from '@/assets/icons/sign-out.svg';
 import noimage from '@/assets/icons/no-image.svg';
-import { useAuth } from '@/stores/authStore';
 
 const className = 'menu-view';
 
 const opened = defineModel({ default: false });
-const authStore = useAuth();
 
 const styles = computed(() =>
 	opened.value
@@ -87,9 +84,8 @@ const menuList = computed(() =>
 $component: menu-view;
 .#{$component} {
 	position: absolute;
-	width: 100%;
-	max-width: 400px;
-	height: 100dvh;
+	width: 400px;
+	height: 100vh;
 	background-color: var(--main-white);
 	top: 0;
 	left: -400px;

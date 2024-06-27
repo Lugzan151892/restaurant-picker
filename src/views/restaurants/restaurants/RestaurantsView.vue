@@ -1,7 +1,7 @@
 <template>
 	<section
 		:class="$style[className]"
-		class="r-px-16 r-py-16 r-grid r-hp-100"
+		class="r-px-16 r-pt-16"
 	>
 		<RInput
 			placeholder="Поиск по ресторанам"
@@ -16,10 +16,7 @@
 				/>
 			</template>
 		</RInput>
-		<div
-			class="r-wp-100"
-			:class="$style[`${className}-types`]"
-		>
+		<div :class="$style[`${className}-types`]">
 			<h3
 				:class="$style[`${className}-types--title`]"
 				class="r-mt-16 r-mb-16"
@@ -46,10 +43,7 @@
 			>
 				Ваши места
 			</h3>
-			<div
-				class="r-grid"
-				:class="$style[`${className}-restaurants--list`]"
-			>
+			<div class="r-grid">
 				<RestaurantCard
 					v-for="(item, index) in foodTypeList"
 					:key="item.id"
@@ -121,7 +115,6 @@ $component: restaurants-view;
 
 .#{$component} {
 	&-types {
-		overflow: auto;
 		&--title {
 			font-size: 16px;
 			font-weight: 600;
@@ -139,16 +132,6 @@ $component: restaurants-view;
 
 		&--list::-webkit-scrollbar {
 			display: none;
-		}
-	}
-
-	&-restaurants {
-		display: grid;
-		grid-template-rows: max-content 1fr;
-		overflow: auto;
-		&--list {
-			overflow: auto;
-			max-width: 100%;
 		}
 	}
 }
