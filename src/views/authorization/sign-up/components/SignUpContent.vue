@@ -98,15 +98,11 @@ const createUser = async () => {
 		return;
 	}
 
-	const signUpResult = await authStore.registerNewUser(
+	await authStore.registerNewUser(
 		userData.value.username,
 		userData.value.email,
 		userData.value.password,
 	);
-
-	if (signUpResult) {
-		router.push('/');
-	}
 };
 
 const clearError = (field: EVALIDATION_FIELDS) => {
