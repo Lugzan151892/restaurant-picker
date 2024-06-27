@@ -10,8 +10,12 @@
 			alt="Back"
 			@click="opened = false"
 		/>
-		<div class="r-vh-30" />
-		{{ authStore.user.userName || 'Не авторизован' }}
+		<p
+			:class="$style[`${className}-user`]"
+			class="r-mb-32"
+		>
+			{{ authStore.user.userName || 'Не авторизован' }}
+		</p>
 		<nav
 			:class="$style[`${className}-navigation`]"
 			class="r-mt-16"
@@ -25,6 +29,7 @@
 					<MenuListItem
 						:icon="item.icon"
 						:text="item.text"
+						@click="item.action"
 					/>
 				</li>
 			</ul>
@@ -39,11 +44,13 @@ import info from '@/assets/icons/info.svg';
 import signOut from '@/assets/icons/sign-out.svg';
 import noimage from '@/assets/icons/no-image.svg';
 import { useAuth } from '@/stores/authStore';
+import { useRouter } from 'vue-router';
 
 const className = 'menu-view';
 
 const opened = defineModel({ default: false });
 const authStore = useAuth();
+const router = useRouter();
 
 const styles = computed(() =>
 	opened.value
@@ -54,31 +61,49 @@ const styles = computed(() =>
 		: {},
 );
 
+const goToLogin = () => {
+	router.push('/login');
+};
+
 const menuList = computed(() =>
 	[
 		{
 			id: 1,
 			text: 'Профиль',
 			icon: noimage,
-			show: true,
+			show: authStore.user.isAuth,
+			action: () => {},
 		},
 		{
 			id: 2,
 			text: 'Контакты',
 			icon: call,
 			show: true,
+			action: () => {},
 		},
 		{
 			id: 3,
 			text: 'О нас',
 			icon: info,
 			show: true,
+			action: () => {},
 		},
 		{
 			id: 4,
 			text: 'Выйти',
 			icon: signOut,
-			show: true,
+			show: authStore.user.isAuth,
+			action: () => {
+				authStore.logout();
+				goToLogin();
+			},
+		},
+		{
+			id: 4,
+			text: 'Войти',
+			icon: signOut,
+			show: !authStore.user.isAuth,
+			action: goToLogin,
 		},
 	].filter((el) => el.show),
 );
@@ -98,6 +123,13 @@ $component: menu-view;
 	transition: all 0.25s;
 	-webkit-transition: all 0.25s;
 	z-index: 10;
+
+	&-user {
+		font-size: 20px;
+		text-align: center;
+		color: var(--main-color);
+		margin-top: 10%;
+	}
 
 	&-navigation {
 		& > ul {
