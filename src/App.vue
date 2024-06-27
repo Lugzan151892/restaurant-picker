@@ -13,6 +13,7 @@
 	</header>
 	<main>
 		<RouterView />
+		<InfoModal />
 	</main>
 </template>
 
@@ -23,6 +24,7 @@ import { useAuth } from '@/stores/authStore';
 import { useRoute, useRouter } from 'vue-router';
 import { LOCAL_INTRO_ACCEPT } from '@/utils/localStorage/localStorageVariables';
 import { getLocalItem } from '@/utils/localStorage/localStorageFunc';
+import InfoModal from '@/components/info-modal/InfoModal.vue';
 
 const authStore = useAuth();
 const router = useRouter();

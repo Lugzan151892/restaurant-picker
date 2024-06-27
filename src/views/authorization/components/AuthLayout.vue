@@ -4,9 +4,10 @@
 		:class="$style[className]"
 	>
 		<div
-			class="r-h-120 r-w-240 r-m-auto"
+			class="r-h-120 r-w-240 r-m-auto r-pointer"
 			:class="$style[`${className}-logo`]"
 			:style="{ 'background-image': `url(${logo})` }"
+			@click="goToMain"
 		/>
 		<div
 			class="r-grid r-hp-100"
@@ -33,6 +34,7 @@
 <script lang="ts" setup>
 import RButton from '@/components/ui/RButton.vue';
 import logo from '@/assets/logo.svg';
+import { useRouter } from 'vue-router';
 const className = 'auth-layout';
 
 withDefaults(
@@ -47,6 +49,12 @@ withDefaults(
 		actionDisabled: false,
 	},
 );
+
+const router = useRouter();
+
+const goToMain = () => {
+	router.push('/');
+};
 </script>
 <style lang="scss" module>
 $component: auth-layout;

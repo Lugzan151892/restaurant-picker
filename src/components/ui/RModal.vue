@@ -5,9 +5,11 @@
 	>
 		<div
 			v-if="opened"
+			class="r-m-auto"
 			:class="$style[`${className}-wrapper`]"
 		>
 			<div
+				v-if="!hideHeader"
 				:class="{
 					[$style[`${className}-header`]]: true,
 					'r-p-8': true,
@@ -44,7 +46,12 @@
 					</slot>
 				</div>
 			</div>
-			<div :class="$style[`${className}-content`]">
+			<div
+				:class="{
+					[$style[`${className}-content`]]: true,
+					'r-mt-24': hideHeader,
+				}"
+			>
 				<div :class="$style[`${className}-content--left`]">
 					<slot name="content-left" />
 				</div>
@@ -74,9 +81,16 @@
 import RButton from '@/components/ui/RButton.vue';
 import RBackground from '@/components/ui/RBackground.vue';
 
-defineProps<{
-	title?: string;
-}>();
+withDefaults(
+	defineProps<{
+		title?: string;
+		hideHeader?: boolean;
+	}>(),
+	{
+		title: '',
+		hideHeader: false,
+	},
+);
 
 defineEmits(['close']);
 const className = 'r-modal';
@@ -95,16 +109,21 @@ $component: 'r-modal';
 		display: grid;
 		min-width: 200px;
 		background: #fff;
-		min-height: 250px;
+		min-height: 200px;
 		opacity: 1;
 		z-index: 11;
 		border-radius: 5px;
 		grid-template-columns: 1fr;
-		grid-template-rows: auto 1fr auto;
+		grid-template-rows: max-content 1fr max-content;
+		grid-template-areas:
+			'header'
+			'content'
+			'footer';
 	}
 
 	&-header {
 		display: grid;
+		grid-area: header;
 		grid-template-areas: 'header header header-right';
 		grid-template-columns: 1fr 1fr auto;
 		grid-template-rows: min-content;
@@ -126,6 +145,7 @@ $component: 'r-modal';
 
 	&-content {
 		display: grid;
+		grid-area: content;
 		grid-template-areas: 'content-left content content-right';
 		grid-template-columns: auto 1fr auto;
 		&--left {
@@ -143,6 +163,7 @@ $component: 'r-modal';
 
 	&-footer {
 		display: grid;
+		grid-area: footer;
 		grid-template-columns: auto 1fr auto;
 		grid-template-areas: 'footer-left footer footer-right';
 		&--left {

@@ -5,20 +5,30 @@ import {
 	LOCAL_REFRESH_TOKEN,
 } from '@/utils/localStorage/localStorageVariables';
 import { defineStore } from 'pinia';
+import { useMain } from '@/stores/mainStore';
+
+interface IUserData {
+	id: number;
+	isAuth: boolean;
+	userName: string;
+	email: string;
+	phone: string;
+}
+
+const defaultUser = (): IUserData => ({
+	id: 0,
+	isAuth: false,
+	userName: '',
+	email: '',
+	phone: '',
+});
 
 export const useAuth = defineStore('useAuth', {
 	state() {
 		return {
-			user: {
-				id: 0,
-				isAuth: false,
-				userName: '',
-				email: '',
-				phone: '',
-			},
+			user: defaultUser(),
 		};
 	},
-
 	actions: {
 		async updateAccessToken() {
 			try {
@@ -29,7 +39,6 @@ export const useAuth = defineStore('useAuth', {
 				);
 
 				if (result.error && result.errorMessage) {
-					console.log(result.errorMessage);
 					return false;
 				}
 
@@ -71,6 +80,7 @@ export const useAuth = defineStore('useAuth', {
 		},
 
 		async registerNewUser(userName: string, email: string, password: string) {
+			const mainStore = useMain();
 			try {
 				const result = await api.post<AUTH.ICreateUserRequest, AUTH.ICreateUserResponse>(
 					'/user/add',
@@ -78,7 +88,7 @@ export const useAuth = defineStore('useAuth', {
 				);
 
 				if (result.error && result.errorMessage) {
-					console.log(result.errorMessage);
+					mainStore.openModal(result.errorMessage, undefined, 'error');
 					return false;
 				}
 
@@ -93,6 +103,12 @@ export const useAuth = defineStore('useAuth', {
 				}
 
 				this.user.isAuth = true;
+
+				mainStore.openModal(
+					`Пользователь ${this.user.userName} успешно зарегистрирован`,
+					'/',
+				);
+
 				return true;
 			} catch (e: any) {
 				console.log(e);
@@ -101,6 +117,7 @@ export const useAuth = defineStore('useAuth', {
 		},
 
 		async login(userName: string, password: string) {
+			const mainStore = useMain();
 			try {
 				const result = await api.post<AUTH.ILoginRequest, AUTH.ILoginResponse>(
 					'/user/login',
@@ -108,7 +125,7 @@ export const useAuth = defineStore('useAuth', {
 				);
 
 				if (result.error && result.errorMessage) {
-					console.log(result.errorMessage);
+					mainStore.openModal(result.errorMessage, undefined, 'error');
 					return false;
 				}
 
@@ -132,11 +149,9 @@ export const useAuth = defineStore('useAuth', {
 
 		async logout() {
 			try {
-				const result = await api.get<undefined, AUTH.ILogoutResponse>('/user/logout');
+				await api.get<undefined, AUTH.ILogoutResponse>('/user/logout');
 
-				if (result.error && result.errorMessage) {
-					console.log(result.errorMessage);
-				}
+				this.user = defaultUser();
 
 				deleteLocalItem(LOCAL_ACCESS_TOKEN);
 				deleteLocalItem(LOCAL_REFRESH_TOKEN);
