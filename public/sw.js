@@ -31,7 +31,13 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('fetch', async (event) => {
-	if (!event.request.url.startsWith('http')) {
+	const url = new URL(event.request.url);
+	const urlStartPath = event.request.url.split(url.origin)[1];
+
+	if (
+		!event.request.url.startsWith('http') ||
+		(urlStartPath && urlStartPath.startsWith('/rest/'))
+	) {
 		return;
 	}
 

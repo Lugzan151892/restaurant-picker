@@ -31,4 +31,8 @@ export interface ILoginResponse extends COMMON.IDefaultResponse {
 	errorMessage?: string;
 }
 
+export interface ILogoutResponse extends COMMON.IDefaultResponse {
+	message?: string;
+}
+
 export as namespace AUTH;
