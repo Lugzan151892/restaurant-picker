@@ -1,6 +1,7 @@
 <template>
 	<RModal
 		v-model="opened"
+		prevent-close
 		title="Создать задачу на ошибку"
 	>
 		<div
@@ -27,18 +28,14 @@
 					v-model="issueDescription"
 				/>
 			</RLabel>
-
 			<RLabel
 				class="r-mt-16"
 				caption="Приоритет ошибки"
 			>
-				<RInput />
-			</RLabel>
-			<RLabel
-				class="r-mt-16"
-				caption="Приоритет ошибки"
-			>
-				<RSelect />
+				<RSelect
+					:items="selectList"
+					v-model="issuePriority"
+				/>
 			</RLabel>
 		</div>
 		<template #footer>
@@ -59,14 +56,30 @@ import RLabel from '@/components/ui/RLabel.vue';
 import RInput from '@/components/ui/RInput.vue';
 import RButton from '@/components/ui/RButton.vue';
 import RSelect from '@/components/ui/RSelect.vue';
+import { EISSUE_PRIORITY } from '@/views/issues/interfaces';
 
-const componentName = 'IssueModal';
 const className = 'issue-modal';
 
 const opened = defineModel({ default: false });
 
 const issueTitle = ref('');
 const issueDescription = ref('');
+const issuePriority = ref<EISSUE_PRIORITY>(EISSUE_PRIORITY.DEFAULT);
+
+const selectList = [
+	{
+		id: EISSUE_PRIORITY.URGENT,
+		text: 'Неотложный',
+	},
+	{
+		id: EISSUE_PRIORITY.DEFAULT,
+		text: 'Обычный',
+	},
+	{
+		id: EISSUE_PRIORITY.UNIMPORTANT,
+		text: 'Низкий',
+	},
+];
 </script>
 
 <style lang="scss" module>

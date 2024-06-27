@@ -53,7 +53,7 @@ const props = withDefaults(
 		type: 'text',
 		modelValue: '',
 		placeholder: 'Введите ...',
-		backgroundColor: '#e7e7e7',
+		backgroundColor: 'var(--background-second)',
 		color: 'var(--color-text)',
 		error: '',
 		id: '',

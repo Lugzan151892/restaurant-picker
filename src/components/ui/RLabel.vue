@@ -9,9 +9,6 @@
 		>
 			{{ caption }}
 		</label>
-		<!-- <div :class="$style[`${className}-caption`]">
-			{{ caption }}
-		</div> -->
 		<slot />
 	</div>
 </template>
@@ -29,7 +26,6 @@ withDefaults(
 	},
 );
 
-const componentName = 'RLabel';
 const className = 'r-label';
 </script>
 

@@ -1,6 +1,7 @@
 <template>
 	<RBackground
 		:opened="opened"
+		:closable="!preventClose"
 		@close="opened = false"
 	>
 		<div
@@ -85,10 +86,12 @@ withDefaults(
 	defineProps<{
 		title?: string;
 		hideHeader?: boolean;
+		preventClose?: boolean;
 	}>(),
 	{
 		title: '',
 		hideHeader: false,
+		preventClose: true,
 	},
 );
 
@@ -105,6 +108,7 @@ $component: 'r-modal';
 		position: absolute;
 		top: 50%;
 		left: 50%;
+		max-height: 90%;
 		transform: translate(-50%, -50%);
 		display: grid;
 		min-width: 200px;
@@ -146,8 +150,10 @@ $component: 'r-modal';
 	&-content {
 		display: grid;
 		grid-area: content;
+		height: 100%;
 		grid-template-areas: 'content-left content content-right';
 		grid-template-columns: auto 1fr auto;
+		overflow: auto;
 		&--left {
 			grid-area: content-left;
 		}
