@@ -23,25 +23,16 @@
 			src="/src/main.ts"
 		></script>
 		<script>
-			console.log('we are in script');
 			if ('serviceWorker' in navigator) {
-				console.log('serviceWorker tut est');
-				navigator.serviceWorker
-					.register('./scripts/sw.js')
-					.then((registration) => {
-						const data = {
-							type: 'CACHE_URLS',
-							payload: [
-								location.href,
-								...performance.getEntriesByType('resource').map((r) => {
-									console.log(r.name);
-									return r.name;
-								}),
-							],
-						};
-						registration.installing.postMessage(data);
-					})
-					.catch((err) => console.log(err));
+				window.addEventListener('load', async () => {
+					try {
+						const reg = await navigator.serviceWorker.register('./sw.js', {
+							scope: '/',
+						});
+					} catch (err) {
+						console.log('😥 Service worker registration failed: ', err);
+					}
+				});
 			}
 		</script>
 	</body>
