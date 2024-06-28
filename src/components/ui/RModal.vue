@@ -14,6 +14,7 @@
 				:class="{
 					[$style[`${className}-header`]]: true,
 					'r-p-8': true,
+					'r-border--bottom': !hideBorders,
 				}"
 			>
 				<div :class="$style[`${className}-header--content`]">
@@ -63,7 +64,12 @@
 					<slot name="content-right" />
 				</div>
 			</div>
-			<div :class="$style[`${className}-footer`]">
+			<div
+				:class="{
+					[$style[`${className}-footer`]]: true,
+					'r-border--top': !hideBorders,
+				}"
+			>
 				<div :class="$style[`${className}-footer--left`]">
 					<slot name="footer-left" />
 				</div>
@@ -87,11 +93,13 @@ withDefaults(
 		title?: string;
 		hideHeader?: boolean;
 		preventClose?: boolean;
+		hideBorders?: boolean;
 	}>(),
 	{
 		title: '',
 		hideHeader: false,
 		preventClose: true,
+		hideBorders: false,
 	},
 );
 

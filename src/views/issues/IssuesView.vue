@@ -17,6 +17,32 @@
 			>
 				Задачи не найдены. Вы можете создать задачу нажатием на кнопку ниже
 			</div>
+			<div
+				v-else
+				class="r-pr-16"
+			>
+				<IssueGroup
+					:status="EISSUE_STATUS.WAITING"
+					:issues="waitingIssues"
+					@delete="handleDeleteIssue($event)"
+					@edit="handleEditIssue($event)"
+					@open-issue="handleOpenIssue($event)"
+				/>
+				<IssueGroup
+					:status="EISSUE_STATUS.IN_PROGRESS"
+					:issues="inProgressIssues"
+					@delete="handleDeleteIssue($event)"
+					@edit="handleEditIssue($event)"
+					@open-issue="handleOpenIssue($event)"
+				/>
+				<IssueGroup
+					:status="EISSUE_STATUS.COMPLETED"
+					:issues="completedIssues"
+					@delete="handleDeleteIssue($event)"
+					@edit="handleEditIssue($event)"
+					@open-issue="handleOpenIssue($event)"
+				/>
+			</div>
 		</div>
 
 		<RButton
@@ -25,17 +51,29 @@
 			:text="authStore.user.isAuth ? 'Новая ошибка' : 'Войти'"
 			@click="handleCreateOrLogin"
 		/>
-		<IssueModal v-model="issueModal" />
+		<IssueCreateModal
+			:is-edit="isEditModal"
+			:issue="currentIssue"
+			v-model="issueCreateModal"
+		/>
+		<IssueItemModal
+			v-if="currentIssue"
+			:issue="currentIssue"
+			v-model="issueViewModal"
+		/>
 	</div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useAuth } from '@/stores/authStore';
 import { useRouter } from 'vue-router';
 import RButton from '@/components/ui/RButton.vue';
-import IssueModal from '@/views/issues/components/IssueModal.vue';
+import IssueCreateModal from '@/views/issues/components/IssueCreateModal.vue';
+import IssueItemModal from '@/views/issues/components/IssueItemModal.vue';
 import { useIssues } from '@/views/issues/store';
+import { EISSUE_STATUS } from '@/views/issues/interfaces';
+import IssueGroup from '@/views/issues/components/IssueGroup.vue';
 
 const className = 'issues-view';
 
@@ -43,11 +81,49 @@ const authStore = useAuth();
 const issuesStore = useIssues();
 const router = useRouter();
 
-const issueModal = ref(false);
+const issueCreateModal = ref(false);
+const isEditModal = ref(false);
+const issueViewModal = ref(false);
+const currentIssue = ref<ISSUE.IIssue | null>(issuesStore.issues[0]);
+
+const waitingIssues = computed(() =>
+	issuesStore.issues.filter((issue) => issue.status === EISSUE_STATUS.WAITING),
+);
+const inProgressIssues = computed(() =>
+	issuesStore.issues.filter((issue) => issue.status === EISSUE_STATUS.IN_PROGRESS),
+);
+const completedIssues = computed(() =>
+	issuesStore.issues.filter((issue) => issue.status === EISSUE_STATUS.COMPLETED),
+);
+
+const handleOpenIssue = (issueId: number) => {
+	const clickedIssue = issuesStore.issues.find((issue) => issue.id === issueId);
+
+	if (clickedIssue) {
+		currentIssue.value = clickedIssue;
+		issueViewModal.value = true;
+	}
+};
+
+const handleDeleteIssue = (issueId: number) => {
+	issuesStore.issues = issuesStore.issues.filter((issue) => issue.id !== issueId);
+};
+
+const handleEditIssue = (issueId: number) => {
+	console.log(issueId);
+	const clickedIssue = issuesStore.issues.find((issue) => issue.id === issueId);
+
+	console.log(clickedIssue);
+	if (clickedIssue) {
+		currentIssue.value = clickedIssue;
+		isEditModal.value = true;
+		issueCreateModal.value = true;
+	}
+};
 
 const handleCreateOrLogin = () => {
 	if (authStore.user.isAuth) {
-		issueModal.value = true;
+		issueCreateModal.value = true;
 	} else {
 		router.push('/login');
 	}

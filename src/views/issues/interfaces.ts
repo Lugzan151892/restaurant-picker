@@ -1,5 +1,11 @@
 export enum EISSUE_PRIORITY {
-	URGENT,
+	URGENT = 1,
 	DEFAULT,
 	UNIMPORTANT,
+}
+
+export enum EISSUE_STATUS {
+	WAITING = 1,
+	IN_PROGRESS,
+	COMPLETED,
 }

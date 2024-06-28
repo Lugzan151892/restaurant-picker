@@ -2,7 +2,7 @@
 	<RModal
 		v-model="opened"
 		prevent-close
-		title="Создать задачу на ошибку"
+		:title="isEdit ? 'Изменить заявку на ошибку' : 'Создать задачу на ошибку'"
 	>
 		<div
 			class="r-p-16"
@@ -39,10 +39,10 @@
 			</RLabel>
 		</div>
 		<template #footer>
-			<div class="r-wp-100 r-grid r-mb-16">
+			<div class="r-wp-100 r-grid r-my-8">
 				<RButton
 					class="r-h-30"
-					text="Создать"
+					:text="isEdit ? 'Изменить' : 'Создать'"
 				/>
 			</div>
 		</template>
@@ -57,27 +57,41 @@ import RInput from '@/components/ui/RInput.vue';
 import RButton from '@/components/ui/RButton.vue';
 import RSelect from '@/components/ui/RSelect.vue';
 import { EISSUE_PRIORITY } from '@/views/issues/interfaces';
+import { getIssuePriorityText } from '../utils';
 
 const className = 'issue-modal';
 
 const opened = defineModel({ default: false });
 
-const issueTitle = ref('');
-const issueDescription = ref('');
-const issuePriority = ref<EISSUE_PRIORITY>(EISSUE_PRIORITY.DEFAULT);
+const props = withDefaults(
+	defineProps<{
+		isEdit?: boolean;
+		issue?: ISSUE.IIssue | null;
+	}>(),
+	{
+		isEdit: false,
+		issue: null,
+	},
+);
+
+const issueTitle = ref(props.isEdit && props.issue ? props.issue.title : '');
+const issueDescription = ref(props.isEdit && props.issue ? props.issue.description : '');
+const issuePriority = ref<EISSUE_PRIORITY>(
+	props.isEdit && props.issue ? props.issue.priority : EISSUE_PRIORITY.DEFAULT,
+);
 
 const selectList = [
 	{
 		id: EISSUE_PRIORITY.URGENT,
-		text: 'Неотложный',
+		text: getIssuePriorityText(EISSUE_PRIORITY.URGENT),
 	},
 	{
 		id: EISSUE_PRIORITY.DEFAULT,
-		text: 'Обычный',
+		text: getIssuePriorityText(EISSUE_PRIORITY.DEFAULT),
 	},
 	{
 		id: EISSUE_PRIORITY.UNIMPORTANT,
-		text: 'Низкий',
+		text: getIssuePriorityText(EISSUE_PRIORITY.UNIMPORTANT),
 	},
 ];
 </script>
