@@ -8,7 +8,7 @@
 				<div
 					class="wrapper"
 					v-if="opened"
-					@click="$emit('close')"
+					@click="handleClose"
 				/>
 			</transition>
 			<transition
@@ -22,13 +22,27 @@
 </template>
 
 <script lang="ts" setup>
-defineProps<{
-	opened: boolean;
-}>();
+const props = withDefaults(
+	defineProps<{
+		opened: boolean;
+		closable?: boolean;
+	}>(),
+	{
+		closable: false,
+	},
+);
+
+const emit = defineEmits(['close']);
 
 defineOptions({
 	inheritAttrs: false,
 });
+
+const handleClose = () => {
+	if (props.closable) {
+		emit('close');
+	}
+};
 </script>
 
 <style lang="scss" scoped>

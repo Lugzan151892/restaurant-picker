@@ -18,6 +18,8 @@
 				:placeholder="placeholder"
 				:style="{ color: props.color }"
 				:type="type"
+				:name="id"
+				:id="id"
 				:class="$style[`${className}-input`]"
 				v-model="value"
 				@input="$emit('input', $event)"
@@ -40,19 +42,21 @@ const emit = defineEmits(['update:modelValue', 'input']);
 const props = withDefaults(
 	defineProps<{
 		type?: string;
-		modelValue: string;
-		placeholder: string;
+		modelValue?: string;
+		placeholder?: string;
 		backgroundColor?: string;
 		color?: string;
 		error?: string;
+		id?: string;
 	}>(),
 	{
 		type: 'text',
 		modelValue: '',
 		placeholder: 'Введите ...',
-		backgroundColor: '#e7e7e7',
+		backgroundColor: 'var(--background-second)',
 		color: 'var(--color-text)',
 		error: '',
+		id: '',
 	},
 );
 

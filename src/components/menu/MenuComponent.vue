@@ -76,10 +76,13 @@ const menuList = computed(() =>
 		},
 		{
 			id: 2,
-			text: 'Контакты',
+			text: 'Сообщить об ошибке',
 			icon: call,
 			show: true,
-			action: () => {},
+			action: () => {
+				opened.value = false;
+				router.push('/issues');
+			},
 		},
 		{
 			id: 3,
