@@ -1,6 +1,6 @@
 const cacheVersion = 'cache_v1';
 
-const precacheResources = ['/', '/index.html'];
+const precacheResources = ['/', '/index.html', '/sw.js'];
 
 const fromCache = (request) => {
 	return caches

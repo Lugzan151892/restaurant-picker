@@ -23,3 +23,27 @@
 	text-decoration: underline;
 	color: var(--main-color);
 }
+
+.r-grid-column {
+	grid-auto-flow: row;
+}
+
+.r-grid-row {
+	grid-auto-flow: column;
+}
+
+.r-border--top {
+	border-top: 0.5px solid rgb(87, 87, 87);
+}
+
+.r-border--bottom {
+	border-bottom: 0.5px solid rgb(87, 87, 87);
+}
+
+.r-border--left {
+	border-left: 0.5px solid rgb(87, 87, 87);
+}
+
+.r-border--right {
+	border-right: 0.5px solid rgb(87, 87, 87);
+}

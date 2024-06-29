@@ -1,6 +1,7 @@
 <template>
 	<RBackground
 		:opened="opened"
+		:closable="!preventClose"
 		@close="opened = false"
 	>
 		<div
@@ -13,6 +14,7 @@
 				:class="{
 					[$style[`${className}-header`]]: true,
 					'r-p-8': true,
+					'r-border--bottom': !hideBorders,
 				}"
 			>
 				<div :class="$style[`${className}-header--content`]">
@@ -62,7 +64,12 @@
 					<slot name="content-right" />
 				</div>
 			</div>
-			<div :class="$style[`${className}-footer`]">
+			<div
+				:class="{
+					[$style[`${className}-footer`]]: true,
+					'r-border--top': !hideBorders,
+				}"
+			>
 				<div :class="$style[`${className}-footer--left`]">
 					<slot name="footer-left" />
 				</div>
@@ -85,10 +92,14 @@ withDefaults(
 	defineProps<{
 		title?: string;
 		hideHeader?: boolean;
+		preventClose?: boolean;
+		hideBorders?: boolean;
 	}>(),
 	{
 		title: '',
 		hideHeader: false,
+		preventClose: true,
+		hideBorders: false,
 	},
 );
 
@@ -105,6 +116,7 @@ $component: 'r-modal';
 		position: absolute;
 		top: 50%;
 		left: 50%;
+		max-height: 90%;
 		transform: translate(-50%, -50%);
 		display: grid;
 		min-width: 200px;
@@ -146,8 +158,10 @@ $component: 'r-modal';
 	&-content {
 		display: grid;
 		grid-area: content;
+		height: 100%;
 		grid-template-areas: 'content-left content content-right';
 		grid-template-columns: auto 1fr auto;
+		overflow: auto;
 		&--left {
 			grid-area: content-left;
 		}

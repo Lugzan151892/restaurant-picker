@@ -4,7 +4,7 @@
 		class="r-pointer r-m-auto"
 		v-bind="$attrs"
 		:style="styles"
-		@click="onClick()"
+		@click.stop="onClick()"
 	>
 		<div
 			:class="{
