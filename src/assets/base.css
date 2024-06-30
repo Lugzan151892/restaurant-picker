@@ -1,10 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 /* color palette from <https://github.com/vuejs/theme> */
 :root {
 	--color-text: #3f3f3f;
 	--main-color: #ff6108;
 	--background-orange: #ff8d08;
+	--background-second: #e7e7e7;
 	--main-white: #f3f3f3;
 	--main-error: #e82525;
+	--main-warning: #036cff;
+	--main-success: #07ff03;
 	--background-error: #ffc3c3;
 }
 
@@ -52,6 +57,7 @@ body {
 		background-color 0.5s;
 	line-height: 1;
 	font-family:
+		'Montserrat',
 		Inter,
 		-apple-system,
 		BlinkMacSystemFont,
@@ -65,6 +71,8 @@ body {
 		'Helvetica Neue',
 		sans-serif;
 	font-size: 14px;
+	font-style: normal;
+	font-optical-sizing: auto;
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;

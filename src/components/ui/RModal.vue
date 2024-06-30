@@ -1,16 +1,20 @@
 <template>
 	<RBackground
 		:opened="opened"
+		:closable="!preventClose"
 		@close="opened = false"
 	>
 		<div
 			v-if="opened"
+			class="r-m-auto"
 			:class="$style[`${className}-wrapper`]"
 		>
 			<div
+				v-if="!hideHeader"
 				:class="{
 					[$style[`${className}-header`]]: true,
 					'r-p-8': true,
+					'r-border--bottom': !hideBorders,
 				}"
 			>
 				<div :class="$style[`${className}-header--content`]">
@@ -44,7 +48,12 @@
 					</slot>
 				</div>
 			</div>
-			<div :class="$style[`${className}-content`]">
+			<div
+				:class="{
+					[$style[`${className}-content`]]: true,
+					'r-mt-24': hideHeader,
+				}"
+			>
 				<div :class="$style[`${className}-content--left`]">
 					<slot name="content-left" />
 				</div>
@@ -55,7 +64,12 @@
 					<slot name="content-right" />
 				</div>
 			</div>
-			<div :class="$style[`${className}-footer`]">
+			<div
+				:class="{
+					[$style[`${className}-footer`]]: true,
+					'r-border--top': !hideBorders,
+				}"
+			>
 				<div :class="$style[`${className}-footer--left`]">
 					<slot name="footer-left" />
 				</div>
@@ -74,9 +88,20 @@
 import RButton from '@/components/ui/RButton.vue';
 import RBackground from '@/components/ui/RBackground.vue';
 
-defineProps<{
-	title?: string;
-}>();
+withDefaults(
+	defineProps<{
+		title?: string;
+		hideHeader?: boolean;
+		preventClose?: boolean;
+		hideBorders?: boolean;
+	}>(),
+	{
+		title: '',
+		hideHeader: false,
+		preventClose: true,
+		hideBorders: false,
+	},
+);
 
 defineEmits(['close']);
 const className = 'r-modal';
@@ -91,20 +116,26 @@ $component: 'r-modal';
 		position: absolute;
 		top: 50%;
 		left: 50%;
+		max-height: 90%;
 		transform: translate(-50%, -50%);
 		display: grid;
 		min-width: 200px;
 		background: #fff;
-		min-height: 250px;
+		min-height: 200px;
 		opacity: 1;
 		z-index: 11;
 		border-radius: 5px;
 		grid-template-columns: 1fr;
-		grid-template-rows: auto 1fr auto;
+		grid-template-rows: max-content 1fr max-content;
+		grid-template-areas:
+			'header'
+			'content'
+			'footer';
 	}
 
 	&-header {
 		display: grid;
+		grid-area: header;
 		grid-template-areas: 'header header header-right';
 		grid-template-columns: 1fr 1fr auto;
 		grid-template-rows: min-content;
@@ -126,8 +157,11 @@ $component: 'r-modal';
 
 	&-content {
 		display: grid;
+		grid-area: content;
+		height: 100%;
 		grid-template-areas: 'content-left content content-right';
 		grid-template-columns: auto 1fr auto;
+		overflow: auto;
 		&--left {
 			grid-area: content-left;
 		}
@@ -143,6 +177,7 @@ $component: 'r-modal';
 
 	&-footer {
 		display: grid;
+		grid-area: footer;
 		grid-template-columns: auto 1fr auto;
 		grid-template-areas: 'footer-left footer footer-right';
 		&--left {

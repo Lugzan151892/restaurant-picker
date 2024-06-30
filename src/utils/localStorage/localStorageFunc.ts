@@ -13,3 +13,9 @@ export const setLocalItem = (key: string, data: any) => {
 
 	localStorage.setItem(key, JSON.stringify(data));
 };
+
+export const deleteLocalItem = (key: string) => {
+	if (!key) return;
+
+	localStorage.removeItem(key);
+};
