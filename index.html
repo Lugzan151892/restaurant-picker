@@ -6,6 +6,10 @@
 			rel="icon"
 			href="/logo.svg"
 		/>
+		<link
+			rel="manifest"
+			href="manifest.json"
+		/>
 		<meta
 			name="viewport"
 			content="width=device-width, initial-scale=1.0"
@@ -18,5 +22,18 @@
 			type="module"
 			src="/src/main.ts"
 		></script>
+		<script>
+			if ('serviceWorker' in navigator) {
+				window.addEventListener('load', async () => {
+					try {
+						const reg = await navigator.serviceWorker.register('./sw.js', {
+							scope: '/',
+						});
+					} catch (err) {
+						console.log('😥 Service worker registration failed: ', err);
+					}
+				});
+			}
+		</script>
 	</body>
 </html>
