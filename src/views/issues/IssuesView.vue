@@ -52,9 +52,11 @@
 			@click="handleCreateOrLogin"
 		/>
 		<IssueCreateModal
+			v-if="issueCreateModal"
 			:is-edit="isEditModal"
 			:issue="currentIssue"
 			v-model="issueCreateModal"
+			@change-issue="handleUpdateIssue($event)"
 		/>
 		<IssueItemModal
 			v-if="currentIssue"
@@ -74,6 +76,7 @@ import IssueItemModal from '@/views/issues/components/IssueItemModal.vue';
 import { useIssues } from '@/views/issues/store';
 import { EISSUE_STATUS } from '@/views/issues/interfaces';
 import IssueGroup from '@/views/issues/components/IssueGroup.vue';
+import api from '@/services/api';
 
 const className = 'issues-view';
 
@@ -110,10 +113,8 @@ const handleDeleteIssue = (issueId: number) => {
 };
 
 const handleEditIssue = (issueId: number) => {
-	console.log(issueId);
 	const clickedIssue = issuesStore.issues.find((issue) => issue.id === issueId);
 
-	console.log(clickedIssue);
 	if (clickedIssue) {
 		currentIssue.value = clickedIssue;
 		isEditModal.value = true;
@@ -123,11 +124,22 @@ const handleEditIssue = (issueId: number) => {
 
 const handleCreateOrLogin = () => {
 	if (authStore.user.isAuth) {
+		isEditModal.value = false;
 		issueCreateModal.value = true;
 	} else {
 		router.push('/login');
 	}
 };
+
+const handleUpdateIssue = async (data: ISSUE.TIssueCreated) => {
+	try {
+		issuesStore.createIssue(data);
+	} catch (err: any) {
+		console.log(err);
+	}
+};
+
+issuesStore.getIssuesList();
 </script>
 
 <style lang="scss" module>
