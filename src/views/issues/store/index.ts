@@ -40,5 +40,51 @@ export const useIssues = defineStore('useIssues', {
 				console.log(err);
 			}
 		},
+
+		async editIssue(data: ISSUE.TIssueCreated) {
+			if (!data.id) {
+				return;
+			}
+
+			const mainStore = useMain();
+
+			try {
+				const result = await api.put(`/issue/edit/${data.id}`, data);
+
+				if (result.error && result.errorMessage) {
+					mainStore.openModal(result.errorMessage, undefined, 'error');
+					return false;
+				}
+
+				await this.getIssuesList();
+
+				return true;
+			} catch (err: any) {
+				console.log(err);
+			}
+		},
+
+		async deleteIssue(id: number) {
+			if (!id) {
+				return;
+			}
+
+			const mainStore = useMain();
+
+			try {
+				const result = await api.delete(`/issue/delete/${id}`);
+
+				if (result.error && result.errorMessage) {
+					mainStore.openModal(result.errorMessage, undefined, 'error');
+					return false;
+				}
+
+				await this.getIssuesList();
+
+				return true;
+			} catch (err: any) {
+				console.log(err);
+			}
+		},
 	},
 });

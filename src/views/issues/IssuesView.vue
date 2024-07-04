@@ -76,7 +76,6 @@ import IssueItemModal from '@/views/issues/components/IssueItemModal.vue';
 import { useIssues } from '@/views/issues/store';
 import { EISSUE_STATUS } from '@/views/issues/interfaces';
 import IssueGroup from '@/views/issues/components/IssueGroup.vue';
-import api from '@/services/api';
 
 const className = 'issues-view';
 
@@ -109,7 +108,7 @@ const handleOpenIssue = (issueId: number) => {
 };
 
 const handleDeleteIssue = (issueId: number) => {
-	issuesStore.issues = issuesStore.issues.filter((issue) => issue.id !== issueId);
+	issuesStore.deleteIssue(issueId);
 };
 
 const handleEditIssue = (issueId: number) => {
@@ -133,7 +132,11 @@ const handleCreateOrLogin = () => {
 
 const handleUpdateIssue = async (data: ISSUE.TIssueCreated) => {
 	try {
-		issuesStore.createIssue(data);
+		if (isEditModal.value) {
+			issuesStore.editIssue(data);
+		} else {
+			issuesStore.createIssue(data);
+		}
 	} catch (err: any) {
 		console.log(err);
 	}
