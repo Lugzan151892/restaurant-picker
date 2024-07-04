@@ -77,6 +77,7 @@ const props = withDefaults(
 );
 
 const issueData = ref<ISSUE.TIssueCreated>({
+	id: 0,
 	title: 'test api 1',
 	description: 'test api 1',
 	priority: EISSUE_PRIORITY.DEFAULT,
