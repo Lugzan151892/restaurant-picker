@@ -132,10 +132,11 @@ const handleCreateOrLogin = () => {
 const handleUpdateIssue = async (data: ISSUE.TIssueCreated) => {
 	try {
 		if (isEditModal.value) {
-			issuesStore.editIssue(data);
+			await issuesStore.editIssue(data);
 		} else {
-			issuesStore.createIssue(data);
+			await issuesStore.createIssue(data);
 		}
+    issueCreateModal.value = false;
 	} catch (err: any) {
 		console.log(err);
 	}
