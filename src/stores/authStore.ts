@@ -30,10 +30,10 @@ export const useAuth = defineStore('useAuth', {
 		};
 	},
 	actions: {
-    addNotification(text: string, type: COMMON.TInfoModalIconType = 'success') {
-      const mainStore = useMain();
-      mainStore.addNotification(text, type);
-    },
+		addNotification(text: string, type: COMMON.TInfoModalIconType = 'success') {
+			const mainStore = useMain();
+			mainStore.addNotification(text, type);
+		},
 
 		async updateAccessToken() {
 			try {
@@ -44,7 +44,7 @@ export const useAuth = defineStore('useAuth', {
 				);
 
 				if (result.error && result.errorMessage) {
-          this.addNotification('Не авторизован. Токен не действителен.', 'error');
+					this.addNotification('Не авторизован. Токен не действителен.', 'error');
 					return false;
 				}
 
@@ -54,7 +54,7 @@ export const useAuth = defineStore('useAuth', {
 					setLocalItem(LOCAL_ACCESS_TOKEN, result.accessToken);
 				}
 
-        this.addNotification('Успешно авторизован!');
+				this.addNotification('Успешно авторизован!');
 
 				this.user.isAuth = true;
 				return true;
@@ -65,13 +65,13 @@ export const useAuth = defineStore('useAuth', {
 		},
 
 		async checkUserAuth() {
-      try {
+			try {
 				const result = await api.get<undefined, AUTH.ILoginResponse>('/user/checkLogin');
-        console.log('test');
+				console.log('test');
 
 				if (result.error && result.errorMessage) {
 					console.log(result.errorMessage);
-          this.addNotification('Токен недействителен. Не авторизован!', 'error');
+					this.addNotification('Токен недействителен. Не авторизован!', 'error');
 					return false;
 				}
 
@@ -81,12 +81,12 @@ export const useAuth = defineStore('useAuth', {
 					setLocalItem(LOCAL_ACCESS_TOKEN, result.accessToken);
 				}
 
-        this.addNotification('Успешно авторизован!');
+				this.addNotification('Успешно авторизован!');
 				this.user.isAuth = true;
 				return true;
 			} catch (e: any) {
-        console.log('test2');
-        this.addNotification('Токен недействителен. Не авторизован!', 'error');
+				console.log('test2');
+				this.addNotification('Токен недействителен. Не авторизован!', 'error');
 				console.log(e);
 				return false;
 			}
@@ -152,7 +152,7 @@ export const useAuth = defineStore('useAuth', {
 					setLocalItem(LOCAL_REFRESH_TOKEN, result.data.refreshToken);
 				}
 
-        this.addNotification('Успешно авторизован!');
+				this.addNotification('Успешно авторизован!');
 				this.user.isAuth = true;
 				return true;
 			} catch (e: any) {
@@ -170,7 +170,7 @@ export const useAuth = defineStore('useAuth', {
 				deleteLocalItem(LOCAL_ACCESS_TOKEN);
 				deleteLocalItem(LOCAL_REFRESH_TOKEN);
 
-        this.addNotification('Успешный выход из системы!');
+				this.addNotification('Успешный выход из системы!');
 
 				return true;
 			} catch (e: any) {

@@ -31,6 +31,7 @@
 			<RInput
 				placeholder="Введите пароль"
 				class="r-mb-16"
+				type="password"
 				v-model="userData.password"
 			/>
 			<!-- <div

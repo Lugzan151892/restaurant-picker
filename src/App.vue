@@ -14,8 +14,8 @@
 	<main>
 		<RouterView />
 		<InfoModal />
-    <Loading v-if="mainStore.loading" />
-    <Notification />
+		<Loading v-if="mainStore.loading" />
+		<Notification />
 	</main>
 </template>
 

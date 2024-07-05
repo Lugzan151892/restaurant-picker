@@ -20,7 +20,7 @@ interface IInfoModalSettings {
 }
 
 interface INotification {
-  id: number;
+	id: number;
 	type: TInfoModalIconType;
 	text: string;
 	redirect?: string;

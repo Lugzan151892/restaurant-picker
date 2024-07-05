@@ -14,18 +14,16 @@ import RLabel from '@/components/ui/RLabel.vue';
 import RModal from '@/components/ui/RModal.vue';
 import RSelect from '@/components/ui/RSelect.vue';
 
-
 const app = createApp(App);
 
-app
-  .component('RBackground', RBackground)
-  .component('RButton', RButton)
-  .component('RCodeInput', RCodeInput)
-  .component('RIcon', RIcon)
-  .component('RInput', RInput)
-  .component('RLabel', RLabel)
-  .component('RModal', RModal)
-  .component('RSelect', RSelect)
+app.component('RBackground', RBackground)
+	.component('RButton', RButton)
+	.component('RCodeInput', RCodeInput)
+	.component('RIcon', RIcon)
+	.component('RInput', RInput)
+	.component('RLabel', RLabel)
+	.component('RModal', RModal)
+	.component('RSelect', RSelect);
 
 app.use(createPinia());
 app.use(router);

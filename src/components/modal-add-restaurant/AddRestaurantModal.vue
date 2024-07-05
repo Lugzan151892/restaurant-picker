@@ -32,7 +32,6 @@
 </template>
 
 <script lang="ts" setup>
-
 const componentName = 'AddRestaurantModal';
 const className = 'add-restaurant-modal';
 

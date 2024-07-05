@@ -136,7 +136,7 @@ const handleUpdateIssue = async (data: ISSUE.TIssueCreated) => {
 		} else {
 			await issuesStore.createIssue(data);
 		}
-    issueCreateModal.value = false;
+		issueCreateModal.value = false;
 	} catch (err: any) {
 		console.log(err);
 	}

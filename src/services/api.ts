@@ -10,45 +10,44 @@ class Api {
 		this.path = defaultPath;
 	}
 
-  setLoading(loading: boolean) {
-    const mainStore = useMain();
+	setLoading(loading: boolean) {
+		const mainStore = useMain();
 
-    if (loading) mainStore.loadingStart();
-    else mainStore.loadingStop();
-  }
+		if (loading) mainStore.loadingStart();
+		else mainStore.loadingStop();
+	}
 
 	async get<Request, Response extends COMMON.IDefaultResponse>(
 		path: string,
 		params?: Request,
 	): Promise<Response> {
-    try {
-      this.setLoading(true);
-      let requestParams = '';
-      if (params) {
-        requestParams = Object.keys(params).reduce(
-          (acc, curr) =>
-            `${acc}${acc ? '&' : '?'}${curr}=${(params as { [key: string]: string })[curr]}`,
-          '',
-        );
-      }
-      const authToken = getLocalItem(LOCAL_ACCESS_TOKEN);
-      const response = await fetch(this.path + path + requestParams, {
-        headers: {
-          ...(authToken && { Authorization: 'Bearer ' + authToken }),
-        },
-      });
-      if (!response.ok) {
-        throw new Error('Something went wrong, try again');
-      }
-      const result = await response.json();
-      return result;
-    } catch (e) {
-      console.log(e);
-      throw new Error(`Something went wrong! Error: ${e}`);
-    }
-    finally {
-      this.setLoading(false);
-    }
+		try {
+			this.setLoading(true);
+			let requestParams = '';
+			if (params) {
+				requestParams = Object.keys(params).reduce(
+					(acc, curr) =>
+						`${acc}${acc ? '&' : '?'}${curr}=${(params as { [key: string]: string })[curr]}`,
+					'',
+				);
+			}
+			const authToken = getLocalItem(LOCAL_ACCESS_TOKEN);
+			const response = await fetch(this.path + path + requestParams, {
+				headers: {
+					...(authToken && { Authorization: 'Bearer ' + authToken }),
+				},
+			});
+			if (!response.ok) {
+				throw new Error('Something went wrong, try again');
+			}
+			const result = await response.json();
+			return result;
+		} catch (e) {
+			console.log(e);
+			throw new Error(`Something went wrong! Error: ${e}`);
+		} finally {
+			this.setLoading(false);
+		}
 	}
 
 	async post<Request, Response extends COMMON.IDefaultResponse>(
@@ -56,7 +55,7 @@ class Api {
 		options: Request,
 	): Promise<Response> {
 		try {
-      this.setLoading(true);
+			this.setLoading(true);
 			const authToken = getLocalItem(LOCAL_ACCESS_TOKEN);
 			const response = await fetch(this.path + path, {
 				method: 'POST',
@@ -74,10 +73,9 @@ class Api {
 		} catch (e) {
 			console.log(e);
 			throw new Error(`Something went wrong! Error: ${e}`);
+		} finally {
+			this.setLoading(false);
 		}
-    finally {
-      this.setLoading(false);
-    }
 	}
 
 	async put<Request, Response extends COMMON.IDefaultResponse>(
@@ -85,7 +83,7 @@ class Api {
 		options: Request,
 	): Promise<Response> {
 		try {
-      this.setLoading(true);
+			this.setLoading(true);
 			const authToken = getLocalItem(LOCAL_ACCESS_TOKEN);
 			const response = await fetch(this.path + path, {
 				method: 'PUT',
@@ -103,15 +101,14 @@ class Api {
 		} catch (e) {
 			console.log(e);
 			throw new Error(`Something went wrong! Error: ${e}`);
+		} finally {
+			this.setLoading(false);
 		}
-    finally {
-      this.setLoading(false);
-    }
 	}
 
 	async delete<Response extends COMMON.IDefaultResponse>(path: string): Promise<Response> {
 		try {
-      this.setLoading(true);
+			this.setLoading(true);
 			const authToken = getLocalItem(LOCAL_ACCESS_TOKEN);
 			const response = await fetch(this.path + path, {
 				method: 'DELETE',
@@ -128,10 +125,9 @@ class Api {
 		} catch (e) {
 			console.log(e);
 			throw new Error(`Something went wrong! Error: ${e}`);
+		} finally {
+			this.setLoading(false);
 		}
-    finally {
-      this.setLoading(false);
-    }
 	}
 }
 
