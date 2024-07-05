@@ -23,17 +23,17 @@
 			src="/src/main.ts"
 		></script>
 		<script>
-			if ('serviceWorker' in navigator) {
-				window.addEventListener('load', async () => {
-					try {
-						const reg = await navigator.serviceWorker.register('./sw.js', {
-							scope: '/',
-						});
-					} catch (err) {
-						console.log('😥 Service worker registration failed: ', err);
-					}
-				});
-			}
+			// if ('serviceWorker' in navigator) {
+			// 	window.addEventListener('load', async () => {
+			// 		try {
+			// 			const reg = await navigator.serviceWorker.register('./sw.js', {
+			// 				scope: '/',
+			// 			});
+			// 		} catch (err) {
+			// 			console.log('😥 Service worker registration failed: ', err);
+			// 		}
+			// 	});
+			// }
 		</script>
 	</body>
 </html>

@@ -10,4 +10,12 @@ export interface IIssue {
 	userId: number;
 }
 
+type TIssueCreated = Pick<IIssue, 'title' | 'description' | 'priority' | 'id'>;
+
+interface IIssueListResponse extends COMMON.IDefaultResponse {
+	data: {
+		items: Array<IIssue>;
+	};
+}
+
 export as namespace ISSUE;
