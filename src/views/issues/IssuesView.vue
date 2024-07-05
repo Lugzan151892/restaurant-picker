@@ -70,7 +70,6 @@
 import { computed, ref } from 'vue';
 import { useAuth } from '@/stores/authStore';
 import { useRouter } from 'vue-router';
-import RButton from '@/components/ui/RButton.vue';
 import IssueCreateModal from '@/views/issues/components/IssueCreateModal.vue';
 import IssueItemModal from '@/views/issues/components/IssueItemModal.vue';
 import { useIssues } from '@/views/issues/store';

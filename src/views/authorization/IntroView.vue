@@ -28,7 +28,6 @@
 	</section>
 </template>
 <script lang="ts" setup>
-import RButton from '@/components/ui/RButton.vue';
 import { useRouter } from 'vue-router';
 import { setLocalItem } from '@/utils/localStorage/localStorageFunc';
 import { LOCAL_INTRO_ACCEPT } from '@/utils/localStorage/localStorageVariables';

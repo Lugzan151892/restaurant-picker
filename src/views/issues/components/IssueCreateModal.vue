@@ -52,11 +52,6 @@
 
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
-import RModal from '@/components/ui/RModal.vue';
-import RLabel from '@/components/ui/RLabel.vue';
-import RInput from '@/components/ui/RInput.vue';
-import RButton from '@/components/ui/RButton.vue';
-import RSelect from '@/components/ui/RSelect.vue';
 import { EISSUE_PRIORITY } from '@/views/issues/interfaces';
 import { getIssuePriorityText } from '../utils';
 

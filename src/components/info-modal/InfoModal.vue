@@ -32,8 +32,6 @@ import warning from '@/assets/icons/warning.svg';
 import error from '@/assets/icons/error.svg';
 import { useMain } from '@/stores/mainStore';
 import { useRouter } from 'vue-router';
-import RModal from '@/components/ui/RModal.vue';
-import RButton from '@/components/ui/RButton.vue';
 
 const className = 'info-modal';
 

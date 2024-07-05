@@ -85,8 +85,6 @@
 </template>
 
 <script lang="ts" setup>
-import RButton from '@/components/ui/RButton.vue';
-import RBackground from '@/components/ui/RBackground.vue';
 
 withDefaults(
 	defineProps<{

@@ -37,7 +37,6 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuth } from '@/stores/authStore';
 import AuthLayout from '@/views/authorization/components/AuthLayout.vue';
-import RInput from '@/components/ui/RInput.vue';
 import { useValidation, ELOGIN_FIELDS, type IErrorObject } from '@/utils/validation';
 
 const className = 'login-view';

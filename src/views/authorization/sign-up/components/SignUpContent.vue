@@ -60,7 +60,6 @@ import { type IErrorObject, useValidation, EVALIDATION_FIELDS } from '@/utils/va
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import AuthLayout from '@/views/authorization/components/AuthLayout.vue';
-import RInput from '@/components/ui/RInput.vue';
 
 const className = 'sign-up-content';
 

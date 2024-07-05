@@ -14,6 +14,7 @@
 	<main>
 		<RouterView />
 		<InfoModal />
+    <Loading v-if="mainStore.loading" />
 	</main>
 </template>
 
@@ -21,14 +22,17 @@
 import HeaderComponent from '@/components/header/HeaderComponent.vue';
 import { onMounted } from 'vue';
 import { useAuth } from '@/stores/authStore';
+import { useMain } from '@/stores/mainStore';
 import { useRoute, useRouter } from 'vue-router';
 import { LOCAL_INTRO_ACCEPT } from '@/utils/localStorage/localStorageVariables';
 import { getLocalItem } from '@/utils/localStorage/localStorageFunc';
 import InfoModal from '@/components/info-modal/InfoModal.vue';
+import Loading from '@/components/LoadingComponent.vue';
 
 const authStore = useAuth();
 const router = useRouter();
 const route = useRoute();
+const mainStore = useMain();
 
 onMounted(async () => {
 	const canAuthWithAccessToken = await authStore.checkUserAuth();
