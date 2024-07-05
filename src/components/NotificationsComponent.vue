@@ -18,7 +18,7 @@
         :src="icons[notification.type]"
         :alt="notification.type"
       />
-      <div>{{ notification.text }}</div>
+      <div :class="$style[`${className}-notification--text`]">{{ notification.text }}</div>
     </div>
   </transition-group>
 </template>
@@ -29,9 +29,7 @@ import warning from '@/assets/icons/warning.svg';
 import error from '@/assets/icons/error.svg';
 import { useMain } from '@/stores/mainStore';
 
-const componentName = 'NotificationComponent';
 const className = 'notification-component';
-
 const mainStore = useMain();
 
 const icons: { [key: string]: any } = {
@@ -52,20 +50,26 @@ $component: 'notification-component';
 
   &-notification {
     display: grid;
-    grid-template-columns: max-content max-content;
+    grid-template-columns: max-content 1fr;
     border: 1px solid black;
     border-radius: 20px;
     width: 250px;
     background-color: var(--main-color);
+    color: var(--main-white);
     padding: 4px 8px;
     align-items: center;
     column-gap: 8px;
     font-size: 16px;
+		font-weight: 600;
     cursor: pointer;
 
     &--image {
       height: 30px;
       width: 30px;
+    }
+
+    &--text {
+      text-wrap: wrap;
     }
   }
 
@@ -73,7 +77,6 @@ $component: 'notification-component';
     0% {
       right: calc(100% + 16px);
       width: 64px;
-      height: 64px;
     }
 
     50% {

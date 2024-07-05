@@ -28,6 +28,7 @@
 				>
 					Зарегистрироваться.
 				</span>
+        <RButton text="test" @click="testNotif()" />
 			</div>
 		</div>
 	</AuthLayout>
@@ -38,6 +39,7 @@ import { useRouter } from 'vue-router';
 import { useAuth } from '@/stores/authStore';
 import AuthLayout from '@/views/authorization/components/AuthLayout.vue';
 import { useValidation, ELOGIN_FIELDS, type IErrorObject } from '@/utils/validation';
+import { useMain } from '@/stores/mainStore';
 
 const className = 'login-view';
 const authStore = useAuth();
@@ -53,6 +55,11 @@ const errors = ref<IErrorObject<ELOGIN_FIELDS>>({
 	username: '',
 	password: '',
 });
+
+const testNotif = () => {
+  const mainStore = useMain();
+  mainStore.addNotification('test', 'error');
+}
 
 const goToSignup = () => {
 	router.push({ name: 'signup' });

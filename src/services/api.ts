@@ -10,14 +10,19 @@ class Api {
 		this.path = defaultPath;
 	}
 
+  setLoading(loading: boolean) {
+    const mainStore = useMain();
+
+    if (loading) mainStore.loadingStart();
+    else mainStore.loadingStop();
+  }
+
 	async get<Request, Response extends COMMON.IDefaultResponse>(
 		path: string,
 		params?: Request,
 	): Promise<Response> {
-    const mainStore = useMain();
-
     try {
-      mainStore.loadingStart();
+      this.setLoading(true);
       let requestParams = '';
       if (params) {
         requestParams = Object.keys(params).reduce(
@@ -39,13 +44,10 @@ class Api {
       return result;
     } catch (e) {
       console.log(e);
-      return new Promise(() => ({
-        error: true,
-        status: 500,
-      }));
+      throw new Error(`Something went wrong! Error: ${e}`);
     }
     finally {
-      mainStore.loadingStop();
+      this.setLoading(false);
     }
 	}
 
@@ -53,9 +55,8 @@ class Api {
 		path: string,
 		options: Request,
 	): Promise<Response> {
-    const mainStore = useMain();
 		try {
-      mainStore.loadingStart();
+      this.setLoading(true);
 			const authToken = getLocalItem(LOCAL_ACCESS_TOKEN);
 			const response = await fetch(this.path + path, {
 				method: 'POST',
@@ -72,13 +73,10 @@ class Api {
 			return result;
 		} catch (e) {
 			console.log(e);
-			return new Promise(() => ({
-				error: true,
-				status: 500,
-			}));
+			throw new Error(`Something went wrong! Error: ${e}`);
 		}
     finally {
-      mainStore.loadingStop();
+      this.setLoading(false);
     }
 	}
 
@@ -86,9 +84,8 @@ class Api {
 		path: string,
 		options: Request,
 	): Promise<Response> {
-    const mainStore = useMain();
 		try {
-      mainStore.loadingStart();
+      this.setLoading(true);
 			const authToken = getLocalItem(LOCAL_ACCESS_TOKEN);
 			const response = await fetch(this.path + path, {
 				method: 'PUT',
@@ -105,20 +102,16 @@ class Api {
 			return result;
 		} catch (e) {
 			console.log(e);
-			return new Promise(() => ({
-				error: true,
-				status: 500,
-			}));
+			throw new Error(`Something went wrong! Error: ${e}`);
 		}
     finally {
-      mainStore.loadingStop();
+      this.setLoading(false);
     }
 	}
 
 	async delete<Response extends COMMON.IDefaultResponse>(path: string): Promise<Response> {
-    const mainStore = useMain();
 		try {
-      mainStore.loadingStart();
+      this.setLoading(true);
 			const authToken = getLocalItem(LOCAL_ACCESS_TOKEN);
 			const response = await fetch(this.path + path, {
 				method: 'DELETE',
@@ -134,13 +127,10 @@ class Api {
 			return result;
 		} catch (e) {
 			console.log(e);
-			return new Promise(() => ({
-				error: true,
-				status: 500,
-			}));
+			throw new Error(`Something went wrong! Error: ${e}`);
 		}
     finally {
-      mainStore.loadingStop();
+      this.setLoading(false);
     }
 	}
 }
