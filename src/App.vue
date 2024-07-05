@@ -15,6 +15,7 @@
 		<RouterView />
 		<InfoModal />
     <Loading v-if="mainStore.loading" />
+    <Notification />
 	</main>
 </template>
 
@@ -28,6 +29,7 @@ import { LOCAL_INTRO_ACCEPT } from '@/utils/localStorage/localStorageVariables';
 import { getLocalItem } from '@/utils/localStorage/localStorageFunc';
 import InfoModal from '@/components/info-modal/InfoModal.vue';
 import Loading from '@/components/LoadingComponent.vue';
+import Notification from '@/components/NotificationsComponent.vue';
 
 const authStore = useAuth();
 const router = useRouter();

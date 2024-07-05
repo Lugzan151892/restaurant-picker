@@ -9,6 +9,13 @@ interface IInfoModalSettings {
 	redirect: string;
 }
 
+interface INotification {
+  id: number;
+	type: TInfoModalIconType;
+	text: string;
+	redirect?: string;
+}
+
 const defaultModalSettings = (): IInfoModalSettings => ({
 	type: 'success',
 	text: '',
@@ -22,6 +29,7 @@ export const useMain = defineStore('useMain', {
 			mainModal: false,
 			mainModalSettings: defaultModalSettings(),
 			loading: false,
+      notifications: [{ id: 1, text: 'Test Notification', type: 'success' }] as INotification[],
 		};
 	},
 	actions: {
@@ -34,6 +42,24 @@ export const useMain = defineStore('useMain', {
 		clearData() {
 			this.mainModalSettings = defaultModalSettings();
 		},
+
+    deleteNotification(id: number) {
+      if (!id) return;
+
+      this.notifications = this.notifications.filter((notification) => notification.id !== id);
+    },
+
+    addNotification(text: string, type: TInfoModalIconType = 'success') {
+      const id = this.notifications.length ? this.notifications[this.notifications.length - 1].id + 1 : 1;
+      const notification: INotification = { id, text, type };
+
+      this.notifications.push(notification);
+
+      setTimeout(() => {
+        this.deleteNotification(id);
+      }, 3000)
+    },
+
 		loadingStart() {
 			this.loading = true;
 		},
