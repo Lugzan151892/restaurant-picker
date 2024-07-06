@@ -65,7 +65,6 @@
 </template>
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
-import RInput from '@/components/ui/RInput.vue';
 import searchIcon from '@/assets/icons/search.svg';
 import RestaurantTypeItem from '@/views/restaurants/restaurants/components/RestaurantTypeItem.vue';
 import fastFood from '@/assets/images/food_background/fastfood.jpg';

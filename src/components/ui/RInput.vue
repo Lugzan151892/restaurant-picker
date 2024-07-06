@@ -17,13 +17,21 @@
 			<input
 				:placeholder="placeholder"
 				:style="{ color: props.color }"
-				:type="type"
+				:type="computedType"
 				:name="id"
 				:id="id"
 				:class="$style[`${className}-input`]"
 				v-model="value"
 				@input="$emit('input', $event)"
 			/>
+			<div
+				class="r-mx-10 r-pointer"
+				:class="$style[`${className}-iconafter`]"
+				v-if="props.type === 'password'"
+				@click="showPassword = !showPassword"
+			>
+				{{ showPassword ? 'open' : 'hide' }}
+			</div>
 		</div>
 		<p
 			class="r-ml-16 r-mt-2"
@@ -34,7 +42,7 @@
 	</div>
 </template>
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 
 const className = 'r-input';
 
@@ -69,6 +77,11 @@ const value = computed({
 	},
 });
 
+const showPassword = ref(false);
+
+const userType = computed(() => (showPassword.value ? 'text' : 'password'));
+const computedType = computed(() => (props.type === 'password' ? userType.value : props.type));
+
 const inputStyles = computed(() => ({
 	...(props.backgroundColor && { 'background-color': props.backgroundColor }),
 	...(props.color && { color: `${props.color} !important` }),
@@ -80,7 +93,7 @@ $component: r-input;
 	min-height: 52px;
 	border-radius: 10px;
 	display: grid;
-	grid-template-columns: 30px 1fr;
+	grid-template-columns: 30px 1fr max-content;
 	align-items: center;
 	column-gap: 5px;
 
@@ -108,6 +121,10 @@ $component: r-input;
 			border: none;
 			outline: none;
 		}
+	}
+
+	&-iconafter {
+		grid-area: 1 / 3 / 2 / 4;
 	}
 
 	&-error {
