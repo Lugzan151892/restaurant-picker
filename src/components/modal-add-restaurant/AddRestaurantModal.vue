@@ -32,10 +32,6 @@
 </template>
 
 <script lang="ts" setup>
-import RModal from '@/components/ui/RModal.vue';
-import RInput from '@/components/ui/RInput.vue';
-import RButton from '@/components/ui/RButton.vue';
-
 const componentName = 'AddRestaurantModal';
 const className = 'add-restaurant-modal';
 

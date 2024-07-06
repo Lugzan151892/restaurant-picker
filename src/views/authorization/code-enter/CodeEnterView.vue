@@ -23,7 +23,6 @@
 
 <script lang="ts" setup>
 import AuthLayout from '@/views/authorization/components/AuthLayout.vue';
-import RCodeInput from '@/components/ui/RCodeInput.vue';
 import { ref } from 'vue';
 
 defineProps<{

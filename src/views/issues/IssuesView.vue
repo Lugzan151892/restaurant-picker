@@ -70,7 +70,6 @@
 import { computed, ref } from 'vue';
 import { useAuth } from '@/stores/authStore';
 import { useRouter } from 'vue-router';
-import RButton from '@/components/ui/RButton.vue';
 import IssueCreateModal from '@/views/issues/components/IssueCreateModal.vue';
 import IssueItemModal from '@/views/issues/components/IssueItemModal.vue';
 import { useIssues } from '@/views/issues/store';
@@ -133,10 +132,11 @@ const handleCreateOrLogin = () => {
 const handleUpdateIssue = async (data: ISSUE.TIssueCreated) => {
 	try {
 		if (isEditModal.value) {
-			issuesStore.editIssue(data);
+			await issuesStore.editIssue(data);
 		} else {
-			issuesStore.createIssue(data);
+			await issuesStore.createIssue(data);
 		}
+		issueCreateModal.value = false;
 	} catch (err: any) {
 		console.log(err);
 	}
