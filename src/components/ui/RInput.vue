@@ -25,13 +25,14 @@
 				@input="$emit('input', $event)"
 			/>
 			<div
-				class="r-mx-10 r-pointer"
-				:class="$style[`${className}-iconafter`]"
 				v-if="props.type === 'password'"
+				class="r-mx-10 r-pointer r-h-25 r-w-25"
+				:class="$style[`${className}-iconafter`]"
+				:style="{
+					'background-image': `url(${showPassword ? passwordShow : passwordHide})`,
+				}"
 				@click="showPassword = !showPassword"
-			>
-				{{ showPassword ? 'open' : 'hide' }}
-			</div>
+			/>
 		</div>
 		<p
 			class="r-ml-16 r-mt-2"
@@ -43,6 +44,8 @@
 </template>
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
+import passwordHide from '@/assets/icons/password_hide.png';
+import passwordShow from '@/assets/icons/password_show.png';
 
 const className = 'r-input';
 
