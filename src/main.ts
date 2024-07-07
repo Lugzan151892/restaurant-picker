@@ -36,6 +36,9 @@ app.use(router);
 app.use(
 	createYmaps({
 		apikey: APIKEY,
+		servicesApikeys: {
+			suggest: '',
+		},
 	}),
 );
 
