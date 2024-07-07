@@ -67,7 +67,6 @@ const props = withDefaults(
 		backgroundColor: 'var(--background-second)',
 		color: 'var(--color-text)',
 		error: '',
-		id: '',
 	},
 );
 

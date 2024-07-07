@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import authRoutes from './auth';
-import { useAuth } from '@/stores/authStore';
+import authRoutes from '@/router/auth';
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,15 +28,6 @@ const router = createRouter({
 		},
 		...authRoutes,
 	],
-});
-
-router.beforeEach((to, from, next) => {
-	const authStore = useAuth();
-	if (to.matched.some((path) => path.meta.hideForAuth) && authStore.user.isAuth)
-		next({ name: 'restaurants' });
-	else if (to.matched.some((path) => path.meta.requiredAuth) && authStore.user.isAuth)
-		next({ name: 'login' });
-	else next();
 });
 
 export default router;

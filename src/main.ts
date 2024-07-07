@@ -45,7 +45,7 @@ router.beforeEach(async (to, from, next) => {
 	await checkIsAuth();
 
 	const isUserIntroAccept = getLocalItem(LOCAL_INTRO_ACCEPT);
-	console.log(to.path);
+
 	if (!isUserIntroAccept && to.name === 'restaurants') {
 		next({ name: 'intro' });
 	}
