@@ -10,7 +10,7 @@
 			class="r-mt-16"
 			:class="$style[`${className}-issues`]"
 		>
-			<h2>Созданные задачи:</h2>
+			<h2 class="r-mb-16">Созданные задачи:</h2>
 			<div
 				:class="$style[`${className}-issues--empty`]"
 				v-if="!issuesStore.issues.length"
@@ -22,6 +22,7 @@
 				class="r-pr-16"
 			>
 				<IssueGroup
+					v-if="waitingIssues.length"
 					:status="EISSUE_STATUS.WAITING"
 					:issues="waitingIssues"
 					@delete="handleDeleteIssue($event)"
@@ -29,6 +30,7 @@
 					@open-issue="handleOpenIssue($event)"
 				/>
 				<IssueGroup
+					v-if="inProgressIssues.length"
 					:status="EISSUE_STATUS.IN_PROGRESS"
 					:issues="inProgressIssues"
 					@delete="handleDeleteIssue($event)"
@@ -36,6 +38,7 @@
 					@open-issue="handleOpenIssue($event)"
 				/>
 				<IssueGroup
+					v-if="completedIssues.length"
 					:status="EISSUE_STATUS.COMPLETED"
 					:issues="completedIssues"
 					@delete="handleDeleteIssue($event)"
