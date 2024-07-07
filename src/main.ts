@@ -2,6 +2,7 @@ import '@/assets/main.css';
 
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
+import { createYmaps } from 'vue-yandex-maps';
 
 import App from '@/App.vue';
 import router from '@/router';
@@ -17,6 +18,7 @@ import { useAuth } from './stores/authStore';
 import { getLocalItem } from './utils/localStorage/localStorageFunc';
 import { LOCAL_INTRO_ACCEPT } from './utils/localStorage/localStorageVariables';
 
+const APIKEY = '41c61946-3a38-4b32-9810-a2f061c4f35e';
 const app = createApp(App);
 
 app.component('RBackground', RBackground)
@@ -30,6 +32,12 @@ app.component('RBackground', RBackground)
 
 app.use(createPinia());
 app.use(router);
+
+app.use(
+	createYmaps({
+		apikey: APIKEY,
+	}),
+);
 
 router.beforeEach(async (to, from, next) => {
 	const authStore = useAuth();

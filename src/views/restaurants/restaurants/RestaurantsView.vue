@@ -60,6 +60,12 @@
 				/>
 			</div>
 		</div>
+		<RButton
+			class="r-h-30"
+			:class="$style[`${className}-new`]"
+			:text="authStore.user.isAuth ? 'Добавить место' : 'Войти'"
+			@click="handleCreateOrLogin()"
+		/>
 		<AddRestaurantModal v-model="restaurantStore.newRestaurantModal" />
 	</section>
 </template>
@@ -75,12 +81,21 @@ import normalFood from '@/assets/images/food_background/normal_food.jpg';
 import AddRestaurantModal from '@/components/modal-add-restaurant/AddRestaurantModal.vue';
 import { useRestaurants } from '@/views/restaurants/restaurants/store';
 import RestaurantCard from '@/views/restaurants/restaurants/components/RestaurantCard.vue';
+import { useAuth } from '@/stores/authStore';
+import { useRouter } from 'vue-router';
 
 const className = 'restaurants-view';
 
 const restaurantStore = useRestaurants();
+const authStore = useAuth();
+const router = useRouter();
 
 const search = ref('');
+
+const handleCreateOrLogin = () => {
+	if (authStore.user.isAuth) restaurantStore.newRestaurantModal = true;
+	else router.push({ name: 'login' });
+};
 
 const foodTypeList = computed(() => [
 	{

@@ -1,61 +1,27 @@
 <template>
-	<div
-		:class="$style[className]"
-		class="r-h-300 r-w-300"
-		ref="map"
-	></div>
+	<yandex-map
+		v-model="map"
+		:settings="{
+			location: {
+				center: [37.617644, 55.755819],
+				zoom: 9,
+			},
+		}"
+		width="100%"
+		height="calc(80vh - 100px)"
+	>
+		<yandex-map-default-scheme-layer />
+	</yandex-map>
 </template>
 
 <script lang="ts" setup>
-import { YMap } from '@yandex/ymaps3-types';
-import { onBeforeMount, onBeforeUnmount, ref } from 'vue';
+import { shallowRef } from 'vue';
+import type { YMap } from '@yandex/ymaps3-types';
+import { YandexMap, YandexMapDefaultSchemeLayer } from 'vue-yandex-maps';
 
-const componentName = 'YMapComponent';
-const className = 'y-map-component';
-
-const APIKEY = '41c61946-3a38-4b32-9810-a2f061c4f35e';
-const map = ref<YMap | null>(null);
-
-async function initMap() {
-	await ymaps3.ready;
-
-	map.value = new ymaps3.YMap(map.value as unknown as HTMLDivElement, {
-		location: {
-			center: [37.588144, 55.733842],
-			zoom: 10,
-		},
-	});
-
-	//@ts-ignore
-	const layer = new ymaps3.YMapDefaultSchemeLayer();
-	map.value.addChild(layer);
-}
-
-onBeforeMount(() => {
-	const yMapScript = document.createElement('script');
-	yMapScript.setAttribute('src', `https://api-maps.yandex.ru/v3/?apikey=${APIKEY}&lang=ru_RU`);
-	yMapScript.setAttribute('type', 'text/javascript');
-	yMapScript.setAttribute('id', 'yMap');
-	console.log(document.head);
-	yMapScript.onload = () => {
-		initMap();
-	};
-	document.head.appendChild(yMapScript);
-});
-
-onBeforeUnmount(() => {
-	const mapScript = Array.from(document.scripts).find((script) => {
-		return script.id === 'yMap';
-	});
-
-	if (mapScript) {
-		mapScript.remove();
-	}
-});
+const map = shallowRef<null | YMap>(null);
 </script>
 
 <style lang="scss" module>
 $component: 'y-map-component';
-.#{$component} {
-}
 </style>
