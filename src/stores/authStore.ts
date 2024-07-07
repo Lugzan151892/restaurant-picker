@@ -67,7 +67,6 @@ export const useAuth = defineStore('useAuth', {
 		async checkUserAuth() {
 			try {
 				const result = await api.get<undefined, AUTH.ILoginResponse>('/user/checkLogin');
-				console.log('test');
 
 				if (result.error && result.errorMessage) {
 					return false;
@@ -157,9 +156,9 @@ export const useAuth = defineStore('useAuth', {
 
 		async logout() {
 			try {
-				await api.get<undefined, AUTH.ILogoutResponse>('/user/logout');
-
 				this.user = defaultUser();
+
+				await api.get<undefined, AUTH.ILogoutResponse>('/user/logout');
 
 				deleteLocalItem(LOCAL_ACCESS_TOKEN);
 				deleteLocalItem(LOCAL_REFRESH_TOKEN);

@@ -96,8 +96,8 @@ const menuList = computed(() =>
 			text: 'Выйти',
 			icon: signOut,
 			show: authStore.user.isAuth,
-			action: () => {
-				authStore.logout();
+			action: async () => {
+				await authStore.logout();
 				goToLogin();
 			},
 		},
