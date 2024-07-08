@@ -4,10 +4,7 @@
 		prevent-close
 		:title="isEdit ? 'Изменить заявку на ошибку' : 'Создать задачу на ошибку'"
 	>
-		<div
-			class="r-p-16"
-			:class="$style[className]"
-		>
+		<div class="r-p-16">
 			<RLabel
 				label-id="title"
 				caption="Название ошибки"
@@ -53,9 +50,7 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
 import { EISSUE_PRIORITY } from '@/views/issues/interfaces';
-import { getIssuePriorityText } from '../utils';
-
-const className = 'issue-modal';
+import { getIssuePriorityText } from '@/views/issues/utils';
 
 const opened = defineModel({ default: false });
 
@@ -73,8 +68,8 @@ const props = withDefaults(
 
 const issueData = ref<ISSUE.TIssueCreated>({
 	id: 0,
-	title: 'test api 1',
-	description: 'test api 1',
+	title: '',
+	description: '',
 	priority: EISSUE_PRIORITY.DEFAULT,
 });
 
@@ -99,9 +94,3 @@ onMounted(() => {
 	}
 });
 </script>
-
-<style lang="scss" module>
-$component: 'issue-modal';
-.#{$component} {
-}
-</style>

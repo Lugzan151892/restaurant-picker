@@ -31,6 +31,7 @@
 import { useRouter } from 'vue-router';
 import { setLocalItem } from '@/utils/localStorage/localStorageFunc';
 import { LOCAL_INTRO_ACCEPT } from '@/utils/localStorage/localStorageVariables';
+import { onMounted } from 'vue';
 
 const className = 'intro-view';
 const router = useRouter();
@@ -39,6 +40,10 @@ const handleLogin = () => {
 	setLocalItem(LOCAL_INTRO_ACCEPT, true);
 	router.push({ name: 'signup' });
 };
+
+onMounted(() => {
+	setLocalItem(LOCAL_INTRO_ACCEPT, true);
+});
 </script>
 <style lang="scss" module>
 $component: 'intro-view';

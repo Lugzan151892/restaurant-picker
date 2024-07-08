@@ -67,11 +67,8 @@ export const useAuth = defineStore('useAuth', {
 		async checkUserAuth() {
 			try {
 				const result = await api.get<undefined, AUTH.ILoginResponse>('/user/checkLogin');
-				console.log('test');
 
 				if (result.error && result.errorMessage) {
-					console.log(result.errorMessage);
-					this.addNotification('Токен недействителен. Не авторизован!', 'error');
 					return false;
 				}
 
@@ -81,13 +78,9 @@ export const useAuth = defineStore('useAuth', {
 					setLocalItem(LOCAL_ACCESS_TOKEN, result.accessToken);
 				}
 
-				this.addNotification('Успешно авторизован!');
 				this.user.isAuth = true;
 				return true;
 			} catch (e: any) {
-				console.log('test2');
-				this.addNotification('Токен недействителен. Не авторизован!', 'error');
-				console.log(e);
 				return false;
 			}
 		},
@@ -163,9 +156,9 @@ export const useAuth = defineStore('useAuth', {
 
 		async logout() {
 			try {
-				await api.get<undefined, AUTH.ILogoutResponse>('/user/logout');
-
 				this.user = defaultUser();
+
+				await api.get<undefined, AUTH.ILogoutResponse>('/user/logout');
 
 				deleteLocalItem(LOCAL_ACCESS_TOKEN);
 				deleteLocalItem(LOCAL_REFRESH_TOKEN);
