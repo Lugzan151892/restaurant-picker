@@ -10,7 +10,7 @@
 			class="r-mt-16"
 			:class="$style[`${className}-issues`]"
 		>
-			<h2>Созданные задачи:</h2>
+			<h2 class="r-mb-16">Созданные задачи:</h2>
 			<div
 				:class="$style[`${className}-issues--empty`]"
 				v-if="!issuesStore.issues.length"
@@ -22,6 +22,7 @@
 				class="r-pr-16"
 			>
 				<IssueGroup
+					v-if="waitingIssues.length"
 					:status="EISSUE_STATUS.WAITING"
 					:issues="waitingIssues"
 					@delete="handleDeleteIssue($event)"
@@ -29,6 +30,7 @@
 					@open-issue="handleOpenIssue($event)"
 				/>
 				<IssueGroup
+					v-if="inProgressIssues.length"
 					:status="EISSUE_STATUS.IN_PROGRESS"
 					:issues="inProgressIssues"
 					@delete="handleDeleteIssue($event)"
@@ -36,6 +38,7 @@
 					@open-issue="handleOpenIssue($event)"
 				/>
 				<IssueGroup
+					v-if="completedIssues.length"
 					:status="EISSUE_STATUS.COMPLETED"
 					:issues="completedIssues"
 					@delete="handleDeleteIssue($event)"
@@ -52,9 +55,11 @@
 			@click="handleCreateOrLogin"
 		/>
 		<IssueCreateModal
+			v-if="issueCreateModal"
 			:is-edit="isEditModal"
 			:issue="currentIssue"
 			v-model="issueCreateModal"
+			@change-issue="handleUpdateIssue($event)"
 		/>
 		<IssueItemModal
 			v-if="currentIssue"
@@ -68,7 +73,6 @@
 import { computed, ref } from 'vue';
 import { useAuth } from '@/stores/authStore';
 import { useRouter } from 'vue-router';
-import RButton from '@/components/ui/RButton.vue';
 import IssueCreateModal from '@/views/issues/components/IssueCreateModal.vue';
 import IssueItemModal from '@/views/issues/components/IssueItemModal.vue';
 import { useIssues } from '@/views/issues/store';
@@ -106,14 +110,12 @@ const handleOpenIssue = (issueId: number) => {
 };
 
 const handleDeleteIssue = (issueId: number) => {
-	issuesStore.issues = issuesStore.issues.filter((issue) => issue.id !== issueId);
+	issuesStore.deleteIssue(issueId);
 };
 
 const handleEditIssue = (issueId: number) => {
-	console.log(issueId);
 	const clickedIssue = issuesStore.issues.find((issue) => issue.id === issueId);
 
-	console.log(clickedIssue);
 	if (clickedIssue) {
 		currentIssue.value = clickedIssue;
 		isEditModal.value = true;
@@ -123,11 +125,27 @@ const handleEditIssue = (issueId: number) => {
 
 const handleCreateOrLogin = () => {
 	if (authStore.user.isAuth) {
+		isEditModal.value = false;
 		issueCreateModal.value = true;
 	} else {
 		router.push('/login');
 	}
 };
+
+const handleUpdateIssue = async (data: ISSUE.TIssueCreated) => {
+	try {
+		if (isEditModal.value) {
+			await issuesStore.editIssue(data);
+		} else {
+			await issuesStore.createIssue(data);
+		}
+		issueCreateModal.value = false;
+	} catch (err: any) {
+		console.log(err);
+	}
+};
+
+issuesStore.getIssuesList();
 </script>
 
 <style lang="scss" module>

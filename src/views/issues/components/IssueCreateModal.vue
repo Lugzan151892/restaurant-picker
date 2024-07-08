@@ -4,17 +4,14 @@
 		prevent-close
 		:title="isEdit ? 'Изменить заявку на ошибку' : 'Создать задачу на ошибку'"
 	>
-		<div
-			class="r-p-16"
-			:class="$style[className]"
-		>
+		<div class="r-p-16">
 			<RLabel
 				label-id="title"
 				caption="Название ошибки"
 			>
 				<RInput
 					id="title"
-					v-model="issueTitle"
+					v-model="issueData.title"
 				/>
 			</RLabel>
 
@@ -25,7 +22,7 @@
 			>
 				<RInput
 					id="description"
-					v-model="issueDescription"
+					v-model="issueData.description"
 				/>
 			</RLabel>
 			<RLabel
@@ -34,7 +31,7 @@
 			>
 				<RSelect
 					:items="selectList"
-					v-model="issuePriority"
+					v-model="issueData.priority"
 				/>
 			</RLabel>
 		</div>
@@ -43,6 +40,7 @@
 				<RButton
 					class="r-h-30"
 					:text="isEdit ? 'Изменить' : 'Создать'"
+					@click="$emit('change-issue', issueData)"
 				/>
 			</div>
 		</template>
@@ -50,19 +48,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import RModal from '@/components/ui/RModal.vue';
-import RLabel from '@/components/ui/RLabel.vue';
-import RInput from '@/components/ui/RInput.vue';
-import RButton from '@/components/ui/RButton.vue';
-import RSelect from '@/components/ui/RSelect.vue';
+import { onMounted, ref } from 'vue';
 import { EISSUE_PRIORITY } from '@/views/issues/interfaces';
-import { getIssuePriorityText } from '../utils';
-
-const className = 'issue-modal';
+import { getIssuePriorityText } from '@/views/issues/utils';
 
 const opened = defineModel({ default: false });
 
+defineEmits(['change-issue']);
 const props = withDefaults(
 	defineProps<{
 		isEdit?: boolean;
@@ -74,11 +66,12 @@ const props = withDefaults(
 	},
 );
 
-const issueTitle = ref(props.isEdit && props.issue ? props.issue.title : '');
-const issueDescription = ref(props.isEdit && props.issue ? props.issue.description : '');
-const issuePriority = ref<EISSUE_PRIORITY>(
-	props.isEdit && props.issue ? props.issue.priority : EISSUE_PRIORITY.DEFAULT,
-);
+const issueData = ref<ISSUE.TIssueCreated>({
+	id: 0,
+	title: '',
+	description: '',
+	priority: EISSUE_PRIORITY.DEFAULT,
+});
 
 const selectList = [
 	{
@@ -94,10 +87,10 @@ const selectList = [
 		text: getIssuePriorityText(EISSUE_PRIORITY.UNIMPORTANT),
 	},
 ];
-</script>
 
-<style lang="scss" module>
-$component: 'issue-modal';
-.#{$component} {
-}
-</style>
+onMounted(() => {
+	if (props.isEdit && props.issue) {
+		Object.assign(issueData.value, props.issue);
+	}
+});
+</script>

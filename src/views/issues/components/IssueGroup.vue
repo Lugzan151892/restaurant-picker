@@ -1,7 +1,7 @@
 <template>
-	<div :class="$style[className]">
+	<div>
 		<h3 class="r-mb-8">{{ statusText }}:</h3>
-		<div :class="$style[`${className}-list`]">
+		<div>
 			<IssueItem
 				v-for="(issue, index) in issues"
 				:key="issue.id"
@@ -30,14 +30,5 @@ const props = defineProps<{
 
 defineEmits(['edit', 'delete', 'open-issue']);
 
-const componentName = 'IssueGroup';
-const className = 'issue-group';
-
 const statusText = computed(() => getIssueStatusText(props.status));
 </script>
-
-<style lang="scss" module>
-$component: 'issue-group';
-.#{$component} {
-}
-</style>

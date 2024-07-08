@@ -52,14 +52,12 @@
 </template>
 
 <script lang="ts" setup>
-import RModal from '@/components/ui/RModal.vue';
 import {
 	getIssuePriorityColors,
 	getIssuePriorityText,
 	getIssueStatusColors,
 	getIssueStatusText,
 } from '@/views/issues/utils';
-import RButton from '@/components/ui/RButton.vue';
 import { computed } from 'vue';
 
 const componentName = 'IssueItemModal';

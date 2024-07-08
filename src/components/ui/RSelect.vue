@@ -10,6 +10,7 @@
 			:class="$style[`${className}-select`]"
 			:name="id"
 			:id="id"
+			v-model="value"
 		>
 			<option
 				v-for="item in selectItems"
@@ -36,6 +37,7 @@ const className = 'r-select';
 const props = withDefaults(
 	defineProps<{
 		items?: Array<ISelectItem>;
+		showEmpty?: boolean;
 		zeroId?: number;
 		disabled?: boolean;
 		error?: string;
@@ -43,6 +45,7 @@ const props = withDefaults(
 	}>(),
 	{
 		items: () => [],
+		showEmpty: false,
 		zeroId: 0,
 		disabled: false,
 		error: '',
@@ -59,7 +62,9 @@ const handleClick = (val: number) => {
 };
 
 const selectItems = computed<ISelectItem[]>(() =>
-	props.zeroId === 0 ? [{ id: 0, text: 'Ничего не выбрано' }, ...props.items] : props.items,
+	props.zeroId === 0 && props.showEmpty
+		? [{ id: 0, text: 'Ничего не выбрано' }, ...props.items]
+		: props.items,
 );
 </script>
 

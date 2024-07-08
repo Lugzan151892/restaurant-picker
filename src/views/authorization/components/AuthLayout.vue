@@ -32,7 +32,6 @@
 	</section>
 </template>
 <script lang="ts" setup>
-import RButton from '@/components/ui/RButton.vue';
 import logo from '@/assets/logo.svg';
 import { useRouter } from 'vue-router';
 const className = 'auth-layout';

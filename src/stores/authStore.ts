@@ -30,6 +30,11 @@ export const useAuth = defineStore('useAuth', {
 		};
 	},
 	actions: {
+		addNotification(text: string, type: COMMON.TInfoModalIconType = 'success') {
+			const mainStore = useMain();
+			mainStore.addNotification(text, type);
+		},
+
 		async updateAccessToken() {
 			try {
 				const refreshToken = getLocalItem(LOCAL_REFRESH_TOKEN);
@@ -39,6 +44,7 @@ export const useAuth = defineStore('useAuth', {
 				);
 
 				if (result.error && result.errorMessage) {
+					this.addNotification('Не авторизован. Токен не действителен.', 'error');
 					return false;
 				}
 
@@ -47,6 +53,8 @@ export const useAuth = defineStore('useAuth', {
 				if (result.accessToken) {
 					setLocalItem(LOCAL_ACCESS_TOKEN, result.accessToken);
 				}
+
+				this.addNotification('Успешно авторизован!');
 
 				this.user.isAuth = true;
 				return true;
@@ -61,7 +69,6 @@ export const useAuth = defineStore('useAuth', {
 				const result = await api.get<undefined, AUTH.ILoginResponse>('/user/checkLogin');
 
 				if (result.error && result.errorMessage) {
-					console.log(result.errorMessage);
 					return false;
 				}
 
@@ -74,7 +81,6 @@ export const useAuth = defineStore('useAuth', {
 				this.user.isAuth = true;
 				return true;
 			} catch (e: any) {
-				console.log(e);
 				return false;
 			}
 		},
@@ -139,6 +145,7 @@ export const useAuth = defineStore('useAuth', {
 					setLocalItem(LOCAL_REFRESH_TOKEN, result.data.refreshToken);
 				}
 
+				this.addNotification('Успешно авторизован!');
 				this.user.isAuth = true;
 				return true;
 			} catch (e: any) {
@@ -149,12 +156,14 @@ export const useAuth = defineStore('useAuth', {
 
 		async logout() {
 			try {
-				await api.get<undefined, AUTH.ILogoutResponse>('/user/logout');
-
 				this.user = defaultUser();
+
+				await api.get<undefined, AUTH.ILogoutResponse>('/user/logout');
 
 				deleteLocalItem(LOCAL_ACCESS_TOKEN);
 				deleteLocalItem(LOCAL_REFRESH_TOKEN);
+
+				this.addNotification('Успешный выход из системы!');
 
 				return true;
 			} catch (e: any) {
