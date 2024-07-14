@@ -37,7 +37,7 @@ app.use(
 	createYmaps({
 		apikey: APIKEY,
 		servicesApikeys: {
-			suggest: '',
+			suggest: '99c2aab6-9d6f-44fe-90a9-f48f373d7c3f',
 		},
 	}),
 );
