@@ -22,6 +22,7 @@
 				:id="id"
 				:class="$style[`${className}-input`]"
 				v-model="value"
+				@change="$emit('change', $event)"
 				@input="$emit('input', $event)"
 			/>
 			<div
@@ -49,7 +50,7 @@ import passwordShow from '@/assets/icons/password_show.png';
 
 const className = 'r-input';
 
-const emit = defineEmits(['update:modelValue', 'input']);
+const emit = defineEmits(['update:modelValue', 'input', 'change']);
 const props = withDefaults(
 	defineProps<{
 		type?: string;

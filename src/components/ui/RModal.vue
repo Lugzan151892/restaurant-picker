@@ -7,7 +7,10 @@
 		<div
 			v-if="opened"
 			class="r-m-auto"
-			:class="$style[`${className}-wrapper`]"
+			:class="{
+				[$style[`${className}-wrapper`]]: true,
+				'r-hp-90 r-wp-90': fullSize,
+			}"
 		>
 			<div
 				v-if="!hideHeader"
@@ -91,6 +94,7 @@ withDefaults(
 		hideHeader?: boolean;
 		preventClose?: boolean;
 		hideBorders?: boolean;
+		fullSize?: boolean;
 	}>(),
 	{
 		title: '',
