@@ -2,7 +2,6 @@ import '@/assets/main.css';
 
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
-import { createYmaps } from 'vue-yandex-maps';
 
 import App from '@/App.vue';
 import router from '@/router';
@@ -32,15 +31,6 @@ app.component('RBackground', RBackground)
 
 app.use(createPinia());
 app.use(router);
-
-app.use(
-	createYmaps({
-		apikey: APIKEY,
-		servicesApikeys: {
-			suggest: '99c2aab6-9d6f-44fe-90a9-f48f373d7c3f',
-		},
-	}),
-);
 
 router.beforeEach(async (to, from, next) => {
 	const authStore = useAuth();
