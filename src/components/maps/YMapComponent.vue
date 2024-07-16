@@ -4,57 +4,84 @@
 			v-model="search"
 			@change="getData($event)"
 		/>
-		<yandex-map
-			v-model="map"
-			:settings="{
-				location: {
-					center: [37.617644, 55.755819],
-					zoom: 9,
-				},
-			}"
-		>
-			<yandex-map-default-scheme-layer />
-			<yandex-map-default-features-layer />
-			<yandex-map-default-marker
-				v-if="marker"
-				:settings="marker"
-			>
-				<div class="r-h-20 r-w-20">marker</div>
-			</yandex-map-default-marker>
-			<yandex-map-controls :settings="{ position: 'left' }">
-				<yandex-map-geolocation-control />
-			</yandex-map-controls>
-			<yandex-map-listener
-				:settings="{
-					onClick: handleClick,
-				}"
-			/>
-		</yandex-map>
+		<div
+			ref="mapEl"
+			class="r-w-300 r-h-300"
+			id="map"
+		/>
 	</div>
 </template>
 
 <script lang="ts" setup>
 import { ref, shallowRef } from 'vue';
-import type { DomEventHandler, YMap, YMapMarkerProps } from '@yandex/ymaps3-types';
-import {
-	YandexMap,
-	YandexMapControls,
-	YandexMapDefaultFeaturesLayer,
-	YandexMapDefaultSchemeLayer,
-	YandexMapGeolocationControl,
-	YandexMapListener,
-	YandexMapDefaultMarker,
-} from 'vue-yandex-maps';
-import type { SearchResponse } from '@yandex/ymaps3-types/imperative/search';
-import api from '@/services/api';
+import { type LngLat, type YMap, type YMapLocationRequest } from '@yandex/ymaps3-types';
+import type { YMapDefaultMarker as IMarker } from '@yandex/ymaps3-types/packages/markers';
+
+const mapEl = ref<HTMLDivElement | null>(null);
+
+const yMap = ref<YMap | null>(null);
+const newmarker = ref<IMarker>();
+
+async function initMap(): Promise<void> {
+	await ymaps3.ready;
+
+	const { YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapListener, YMapControls } =
+		ymaps3;
+
+	const { YMapDefaultMarker } = await ymaps3.import('@yandex/ymaps3-markers@0.0.1');
+
+	const LOCATION: YMapLocationRequest = {
+		center: [37.623082, 55.75254],
+		zoom: 9,
+	};
+
+	yMap.value = new YMap(mapEl.value, { location: LOCATION, showScaleInCopyrights: true }, [
+		new YMapDefaultSchemeLayer({}),
+		new YMapDefaultFeaturesLayer({}),
+	]);
+
+	const controls = new YMapControls({ position: 'top left', orientation: 'vertical' });
+	yMap.value.addChild(controls);
+
+	const handleClick = (_: any, o: any) => {
+		console.log(_, o);
+		var coordinates = o.coordinates;
+
+		if (newmarker.value) {
+			newmarker.value.update({ coordinates });
+		} else {
+			newmarker.value = createPlacemark(coordinates);
+			console.log(newmarker.value);
+			yMap.value?.addChild(newmarker.value);
+		}
+	};
+
+	const mapListener = new YMapListener({
+		layer: 'any',
+		onClick: handleClick,
+	});
+
+	function createPlacemark(coordinates: LngLat) {
+		return new YMapDefaultMarker({
+			coordinates,
+			draggable: true,
+			title: 'test',
+		});
+	}
+
+	if (newmarker.value) {
+		yMap.value?.addChild(newmarker.value);
+	}
+
+	yMap.value?.addChild(mapListener);
+}
+
+initMap();
 
 const className = 'y-map-component';
 const map = shallowRef<null | YMap>(null);
 
 const search = ref('');
-const searchResponse = ref<null | SearchResponse>(null);
-
-const marker = ref<null | YMapMarkerProps>(null);
 
 const getData = async (e: any) => {
 	console.log(e);
@@ -71,28 +98,6 @@ const getData = async (e: any) => {
 	// });
 	console.log(result);
 };
-
-const handleClick: DomEventHandler = async (obj, e) => {
-	const { coordinates } = e;
-	if (marker.value) {
-		marker.value.coordinates = coordinates;
-	} else {
-		marker.value = { coordinates, onClick: () => (marker.value = null), draggable: true };
-	}
-
-	api.setPath('https://geocode-maps.yandex.ru/1.x/');
-
-	const result = await api.get('', {
-		apikey: '41c61946-3a38-4b32-9810-a2f061c4f35e',
-		geocode: coordinates,
-		format: 'json',
-	});
-
-	console.log(result);
-
-	console.log(obj, 'obj');
-	console.log(e, 'event');
-};
 </script>
 
 <style lang="scss" module>
@@ -103,3 +108,4 @@ $component: 'y-map-component';
 	height: calc(100vh - 100px);
 }
 </style>
+import type { YMapDefaultMarkerProps } from '@yandex/ymaps3-types/packages/markers';
