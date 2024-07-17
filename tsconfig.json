@@ -11,8 +11,10 @@
 			"path": "./tsconfig.vitest.json"
 		}
 	],
+	"esModuleInterop": true,
+	"moduleResolution": "node",
 	"compilerOptions": {
-		"typeRoots": ["./node_modules/@yandex/ymaps3-types"]
+		"typeRoots": ["./types", "./node_modules/@types", "./node_modules/@yandex/ymaps3-types"]
 	},
 	"paths": {
 		"ymaps3": ["./node_modules/@yandex/ymaps3-types"]
