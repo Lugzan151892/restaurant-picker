@@ -17,7 +17,6 @@ import { useAuth } from './stores/authStore';
 import { getLocalItem } from './utils/localStorage/localStorageFunc';
 import { LOCAL_INTRO_ACCEPT } from './utils/localStorage/localStorageVariables';
 
-const APIKEY = '41c61946-3a38-4b32-9810-a2f061c4f35e';
 const app = createApp(App);
 
 app.component('RBackground', RBackground)

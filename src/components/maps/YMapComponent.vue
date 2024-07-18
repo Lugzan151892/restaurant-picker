@@ -1,9 +1,13 @@
 <template>
 	<div :class="$style[className]">
-		<RInput
+		<RInputDatalist
+			id="ymaps-search"
+			:options="testOptions"
+		/>
+		<!-- <RInput
 			v-model="search"
 			@change="getData($event)"
-		/>
+		/> -->
 		<div
 			ref="mapEl"
 			class="r-w-300 r-h-300"
@@ -13,14 +17,31 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, shallowRef } from 'vue';
+import { onBeforeMount, onBeforeUnmount, ref } from 'vue';
 import { type LngLat, type YMap, type YMapLocationRequest } from '@yandex/ymaps3-types';
 import type { YMapDefaultMarker as IMarker } from '@yandex/ymaps3-types/packages/markers';
+import RInputDatalist from '@/components/ui/RInputDatalist.vue';
+
+const className = 'y-map-component';
 
 const mapEl = ref<HTMLDivElement | null>(null);
 
 const yMap = ref<YMap | null>(null);
 const newmarker = ref<IMarker>();
+const search = ref('');
+
+const testOptions = [
+	{
+		id: 0,
+		text: 'test1',
+	},
+	{
+		id: 1,
+		text: 'test2',
+	},
+];
+
+const APIKEY = '41c61946-3a38-4b32-9810-a2f061c4f35e';
 
 async function initMap(): Promise<void> {
 	await ymaps3.ready;
@@ -34,6 +55,8 @@ async function initMap(): Promise<void> {
 		center: [37.623082, 55.75254],
 		zoom: 9,
 	};
+
+	if (!mapEl.value) return;
 
 	yMap.value = new YMap(mapEl.value, { location: LOCATION, showScaleInCopyrights: true }, [
 		new YMapDefaultSchemeLayer({}),
@@ -76,28 +99,43 @@ async function initMap(): Promise<void> {
 	yMap.value?.addChild(mapListener);
 }
 
-initMap();
+onBeforeMount(() => {
+	const yMapScript = document.createElement('script');
+	yMapScript.setAttribute('src', `https://api-maps.yandex.ru/v3/?apikey=${APIKEY}&lang=ru_RU`);
+	yMapScript.setAttribute('type', 'text/javascript');
+	yMapScript.setAttribute('id', 'yMap');
+	console.log(document.head);
+	yMapScript.onload = () => {
+		initMap();
+	};
+	document.head.appendChild(yMapScript);
+});
 
-const className = 'y-map-component';
-const map = shallowRef<null | YMap>(null);
-
-const search = ref('');
-
-const getData = async (e: any) => {
-	console.log(e);
-	// api.setPath('https://suggest-maps.yandex.ru/v1/suggest');
-	const result = await ymaps3.search({
-		text: search.value,
-		bounds: map.value?.bounds,
+onBeforeUnmount(() => {
+	const mapScript = Array.from(document.scripts).find((script) => {
+		return script.id === 'yMap';
 	});
-	// const result = await api.get('', {
-	// 	apikey: geoApiKey,
-	// 	text: search.value,
-	// 	types: 'biz,geo',
-	// 	attrs: 'uri',
-	// });
-	console.log(result);
-};
+
+	if (mapScript) {
+		mapScript.remove();
+	}
+});
+
+// const getData = async (e: any) => {
+// 	console.log(e);
+// 	// api.setPath('https://suggest-maps.yandex.ru/v1/suggest');
+// 	const result = await ymaps3.search({
+// 		text: search.value,
+// 		bounds: map.value?.bounds,
+// 	});
+// 	// const result = await api.get('', {
+// 	// 	apikey: geoApiKey,
+// 	// 	text: search.value,
+// 	// 	types: 'biz,geo',
+// 	// 	attrs: 'uri',
+// 	// });
+// 	console.log(result);
+// };
 </script>
 
 <style lang="scss" module>
