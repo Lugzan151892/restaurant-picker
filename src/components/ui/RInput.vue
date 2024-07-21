@@ -22,8 +22,8 @@
 				:id="id"
 				:class="$style[`${className}-input`]"
 				v-model="value"
-				@change="$emit('change', $event)"
-				@input="$emit('input', $event)"
+				@change="handleChange($event)"
+				@input="handleInput($event)"
 			/>
 			<div
 				v-if="props.type === 'password'"
@@ -50,7 +50,11 @@ import passwordShow from '@/assets/icons/password_show.png';
 
 const className = 'r-input';
 
-const emit = defineEmits(['update:modelValue', 'input', 'change']);
+const emit = defineEmits<{
+	'update:modelValue': [text: string];
+	input: [text: string];
+	change: [text: string];
+}>();
 const props = withDefaults(
 	defineProps<{
 		type?: string;
@@ -89,6 +93,15 @@ const inputStyles = computed(() => ({
 	...(props.backgroundColor && { 'background-color': props.backgroundColor }),
 	...(props.color && { color: `${props.color} !important` }),
 }));
+
+const handleInput = (e: Event) => {
+	emit('input', (e.target as HTMLInputElement).value);
+	value.value = (e.target as HTMLInputElement).value;
+};
+
+const handleChange = (e: Event) => {
+	emit('change', (e.target as HTMLInputElement).value);
+};
 </script>
 <style lang="scss" module>
 $component: r-input;

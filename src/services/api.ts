@@ -6,11 +6,15 @@ const defaultPath = 'http://localhost:5000/rest';
 // const defaultPath = 'https://hunter-service.fun/rest';
 class Api {
 	path;
+	useLoading = true;
 	constructor() {
 		this.path = defaultPath;
 	}
 
 	private setLoading(loading: boolean) {
+		if (!this.useLoading) {
+			return;
+		}
 		const mainStore = useMain();
 
 		if (loading) mainStore.loadingStart();
@@ -21,11 +25,15 @@ class Api {
 		this.path = path || defaultPath;
 	}
 
+	loadingOff() {
+		this.useLoading = false;
+	}
+
 	private get isDefaultPath() {
 		return this.path === defaultPath;
 	}
 
-	async get<Request, Response extends COMMON.IDefaultResponse>(
+	async get<Request, Response extends COMMON.IDefaultResponse | any>(
 		path: string,
 		params?: Request,
 	): Promise<Response> {

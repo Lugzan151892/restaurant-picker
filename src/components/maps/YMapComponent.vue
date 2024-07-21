@@ -2,12 +2,20 @@
 	<div :class="$style[className]">
 		<RInputDatalist
 			id="ymaps-search"
-			:options="testOptions"
-		/>
-		<!-- <RInput
-			v-model="search"
+			:options="suggestedResults"
 			@change="getData($event)"
-		/> -->
+		>
+			<template #item="{ item }">
+				<div class="r-flex r-flex-column">
+					<span>
+						{{ item.text }}
+					</span>
+					<span>
+						{{ item.id }}
+					</span>
+				</div>
+			</template>
+		</RInputDatalist>
 		<div
 			ref="mapEl"
 			class="r-w-300 r-h-300"
@@ -18,9 +26,11 @@
 
 <script lang="ts" setup>
 import { onBeforeMount, onBeforeUnmount, ref } from 'vue';
-import { type LngLat, type YMap, type YMapLocationRequest } from '@yandex/ymaps3-types';
+import type { LngLat, YMap, YMapLocationRequest } from '@yandex/ymaps3-types';
 import type { YMapDefaultMarker as IMarker } from '@yandex/ymaps3-types/packages/markers';
 import RInputDatalist from '@/components/ui/RInputDatalist.vue';
+import { YMAPS_API_KEY, YMAPS_SEARCH_KEY } from '@/utils/ymaps';
+import api from '@/services/api';
 
 const className = 'y-map-component';
 
@@ -28,6 +38,7 @@ const mapEl = ref<HTMLDivElement | null>(null);
 
 const yMap = ref<YMap | null>(null);
 const newmarker = ref<IMarker>();
+const suggestedResults = ref<{ id: number; text: string; description: string }[]>([]);
 const search = ref('');
 
 const testOptions = [
@@ -41,7 +52,27 @@ const testOptions = [
 	},
 ];
 
-const APIKEY = '41c61946-3a38-4b32-9810-a2f061c4f35e';
+const getObjects = async (request: LngLat | string) => {
+	api.setPath('https://search-maps.yandex.ru/v1/');
+	api.loadingOff();
+	const result = await api.get<any, YMAPS.YmapsResponseSearch>('', {
+		apikey: YMAPS_SEARCH_KEY,
+		text: Array.isArray(request) ? 'Рестораны' : request,
+		lang: 'ru_RU',
+		type: 'biz',
+		...(Array.isArray(request) ? { ll: request.toString() } : {}),
+	});
+
+	console.log(result);
+
+	suggestedResults.value = result.features.map((place, index) => {
+		return {
+			id: index,
+			text: place.properties.name,
+			description: place.properties.description,
+		};
+	});
+};
 
 async function initMap(): Promise<void> {
 	await ymaps3.ready;
@@ -77,6 +108,7 @@ async function initMap(): Promise<void> {
 			console.log(newmarker.value);
 			yMap.value?.addChild(newmarker.value);
 		}
+		getObjects(coordinates);
 	};
 
 	const mapListener = new YMapListener({
@@ -101,7 +133,10 @@ async function initMap(): Promise<void> {
 
 onBeforeMount(() => {
 	const yMapScript = document.createElement('script');
-	yMapScript.setAttribute('src', `https://api-maps.yandex.ru/v3/?apikey=${APIKEY}&lang=ru_RU`);
+	yMapScript.setAttribute(
+		'src',
+		`https://api-maps.yandex.ru/v3/?apikey=${YMAPS_API_KEY}&lang=ru_RU`,
+	);
 	yMapScript.setAttribute('type', 'text/javascript');
 	yMapScript.setAttribute('id', 'yMap');
 	console.log(document.head);
@@ -121,21 +156,25 @@ onBeforeUnmount(() => {
 	}
 });
 
-// const getData = async (e: any) => {
-// 	console.log(e);
-// 	// api.setPath('https://suggest-maps.yandex.ru/v1/suggest');
-// 	const result = await ymaps3.search({
-// 		text: search.value,
-// 		bounds: map.value?.bounds,
-// 	});
-// 	// const result = await api.get('', {
-// 	// 	apikey: geoApiKey,
-// 	// 	text: search.value,
-// 	// 	types: 'biz,geo',
-// 	// 	attrs: 'uri',
-// 	// });
-// 	console.log(result);
-// };
+const getData = async (e: string) => {
+	if (!e) {
+		suggestedResults.value = [];
+		return;
+	}
+	console.log(e);
+	// api.setPath('https://suggest-maps.yandex.ru/v1/suggest');
+	getObjects(e);
+	// const result = await ymaps3.search({
+	// 	text: search.value,
+	// 	bounds: yMap.value?.bounds,
+	// });
+	// const result = await api.get('', {
+	// 	apikey: geoApiKey,
+	// 	text: search.value,
+	// 	types: 'biz,geo',
+	// 	attrs: 'uri',
+	// });
+};
 </script>
 
 <style lang="scss" module>
