@@ -7,20 +7,25 @@
 			class="r-px-24 r-mt-32"
 			:class="$style[className]"
 		>
-			<h1>Выбрать место на карте</h1>
-			<YMapComponent />
-			<!-- <div>
+			<div>
+				<p class="r-mb-4">Тип</p>
+				<RInput class="r-mb-16" />
+			</div>
+			<div class="r-wp-100">
+				<RButton
+					class="r-wp-100"
+					text="Указать на карте"
+					@click="ymapsModal = true"
+				/>
+			</div>
+			<div>
 				<p class="r-mb-4">Название</p>
 				<RInput class="r-mb-16" />
 			</div>
 			<div>
-				<p class="r-mb-4">Описание</p>
+				<p class="r-mb-4">Комментарий</p>
 				<RInput class="r-mb-16" />
 			</div>
-			<div>
-				<p class="r-mb-4">Ссылка на карте</p>
-				<RInput class="r-mb-16" />
-			</div> -->
 		</div>
 		<template #footer>
 			<div class="r-wp-100 r-grid r-p-16">
@@ -30,15 +35,24 @@
 				/>
 			</div>
 		</template>
+		<RModal
+			v-model="ymapsModal"
+			title="Добавление нового места"
+		>
+			<YMapComponent />
+		</RModal>
 	</RModal>
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue';
 import YMapComponent from '../maps/YMapComponent.vue';
 
 const className = 'add-restaurant-modal';
 
 const opened = defineModel({ default: false });
+
+const ymapsModal = ref(false);
 </script>
 
 <style lang="scss" module>

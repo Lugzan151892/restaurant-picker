@@ -18,7 +18,7 @@
 		</RInputDatalist>
 		<div
 			ref="mapEl"
-			class="r-w-300 r-h-300"
+			:class="$style[`${className}-map`]"
 			id="map"
 		/>
 	</div>
@@ -35,22 +35,9 @@ import api from '@/services/api';
 const className = 'y-map-component';
 
 const mapEl = ref<HTMLDivElement | null>(null);
-
 const yMap = ref<YMap | null>(null);
 const newmarker = ref<IMarker>();
 const suggestedResults = ref<{ id: number; text: string; description: string }[]>([]);
-const search = ref('');
-
-const testOptions = [
-	{
-		id: 0,
-		text: 'test1',
-	},
-	{
-		id: 1,
-		text: 'test2',
-	},
-];
 
 const getObjects = async (request: LngLat | string) => {
 	api.setPath('https://search-maps.yandex.ru/v1/');
@@ -161,19 +148,7 @@ const getData = async (e: string) => {
 		suggestedResults.value = [];
 		return;
 	}
-	console.log(e);
-	// api.setPath('https://suggest-maps.yandex.ru/v1/suggest');
 	getObjects(e);
-	// const result = await ymaps3.search({
-	// 	text: search.value,
-	// 	bounds: yMap.value?.bounds,
-	// });
-	// const result = await api.get('', {
-	// 	apikey: geoApiKey,
-	// 	text: search.value,
-	// 	types: 'biz,geo',
-	// 	attrs: 'uri',
-	// });
 };
 </script>
 
@@ -182,7 +157,11 @@ $component: 'y-map-component';
 
 .#{$component} {
 	width: 100%;
-	height: calc(100vh - 100px);
+	height: 100%;
+	min-width: 50vw;
+	min-height: 80vh;
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: min-content 1fr;
 }
 </style>
-import type { YMapDefaultMarkerProps } from '@yandex/ymaps3-types/packages/markers';
