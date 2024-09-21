@@ -10,11 +10,19 @@ class Api {
 		this.path = defaultPath;
 	}
 
-	setLoading(loading: boolean) {
+	private setLoading(loading: boolean) {
 		const mainStore = useMain();
 
 		if (loading) mainStore.loadingStart();
 		else mainStore.loadingStop();
+	}
+
+	setPath(path: string = '') {
+		this.path = path || defaultPath;
+	}
+
+	private get isDefaultPath() {
+		return this.path === defaultPath;
 	}
 
 	async get<Request, Response extends COMMON.IDefaultResponse>(
@@ -34,7 +42,8 @@ class Api {
 			const authToken = getLocalItem(LOCAL_ACCESS_TOKEN);
 			const response = await fetch(this.path + path + requestParams, {
 				headers: {
-					...(authToken && { Authorization: 'Bearer ' + authToken }),
+					...(authToken &&
+						this.isDefaultPath && { Authorization: 'Bearer ' + authToken }),
 				},
 			});
 			if (!response.ok) {
@@ -61,7 +70,8 @@ class Api {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json;charset=utf-8',
-					...(authToken && { Authorization: 'Bearer ' + authToken }),
+					...(authToken &&
+						this.isDefaultPath && { Authorization: 'Bearer ' + authToken }),
 				},
 				body: JSON.stringify(options),
 			});
@@ -89,7 +99,8 @@ class Api {
 				method: 'PUT',
 				headers: {
 					'Content-Type': 'application/json;charset=utf-8',
-					...(authToken && { Authorization: 'Bearer ' + authToken }),
+					...(authToken &&
+						this.isDefaultPath && { Authorization: 'Bearer ' + authToken }),
 				},
 				body: JSON.stringify(options),
 			});
@@ -114,7 +125,8 @@ class Api {
 				method: 'DELETE',
 				headers: {
 					'Content-Type': 'application/json;charset=utf-8',
-					...(authToken && { Authorization: 'Bearer ' + authToken }),
+					...(authToken &&
+						this.isDefaultPath && { Authorization: 'Bearer ' + authToken }),
 				},
 			});
 			if (!response.ok) {
